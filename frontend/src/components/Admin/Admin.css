@@ -1,0 +1,32 @@
+.icon{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 40vh;
+}
+.icon button{
+    background-color: #4a7136;
+}
+.icon button:hover{
+    background-color: #203217;
+}
+
+.icon .subsection{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 56vw;
+}
+
+.icon h1{
+    color: brown;
+}
+
+.icon .log{
+    display: flex;
+    flex-direction: row;
+    width: 22vw;
+    justify-content: space-around;
+}

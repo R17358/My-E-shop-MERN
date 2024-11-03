@@ -1,0 +1,99 @@
+.row{
+    width: 100vw;
+    height: 18vh;
+    /* margin: 16px 7px; */
+    /* padding: 0px 44px;*/
+}
+
+.id{
+    width: 96vw;
+    height: 3vh;
+    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+    border-radius: 8px;
+    margin: 3px 14px;
+}
+
+.id p{
+    text-align: center;
+}
+
+.other{
+    width: 93vw;
+    height: 10vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.other .title{
+    width: 62vw;
+    height: 5vh;
+    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+    border-radius: 11px;
+    margin: 8px 14px;
+}
+
+.title h4{
+    text-align: center;
+    margin: 6px 0px;
+}
+.other .price{
+    width: 25vw;
+    height: 5vh;
+    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+    border-radius: 14px;
+    margin: 9px 7px;
+}
+
+.price h5{
+    text-align: center;
+    margin: 10px;
+}
+
+.other .delete{
+    width: 14vw;
+    border-radius: 39px;
+    height: 15vh;
+    margin: 3px 72px;
+}
+
+.rowContainer{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    justify-content: space-evenly;
+    height: 21vh;
+    width: 98vw;
+    /* margin: 0; */
+    border-radius: 8px;
+    /* box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px; */
+    /* box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;*/
+}
+
+.rowContainer a{
+    height: 83px;
+}
+
+.delete button{
+    padding: 12px 43px;
+    border-radius: 13px;
+    margin: 6px 28px;
+    border-style: none;
+    background-color: #772d8a;
+    color: antiquewhite;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.delete button:hover{
+    background-color: #19193f;
+}
+
+.price h5{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.rowContainer:hover{
+    box-shadow: rgb(0 0 0) 0px 19px 38px, rgb(0 0 0 / 25%) 0px 15px 12px;
+}
