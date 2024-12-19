@@ -26,7 +26,9 @@ function Product({product}) {
     <div>
         <div className="card">
         <Link to={`/product/${product._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-            <h2>{product.name}</h2>
+            <div className="productHead">
+              <h2>{product.name}</h2>
+            </div>
             <img src={product.images[0].url} alt={product.name}/>
             <p className='desc'><b>Description:</b>{product.description}</p>
             <h4>{product.price} /-</h4>

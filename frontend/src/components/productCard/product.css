@@ -41,3 +41,9 @@ button:hover{
     text-overflow: ellipsis;
     white-space: nowrap; /* or 'normal' if you want multi-line cut-off */
 }
+
+.productHead{
+    overflow: hidden;
+    height: 11vh;
+    text-overflow: ellipsis;
+}
