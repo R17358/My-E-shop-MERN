@@ -1,5 +1,8 @@
 # E-Commerce Web Application (Wooden Products Marketplace)
 
+Live: https://my-e-shop-web-frontend.vercel.app/
+
+
 ## Overview
 This is a **full MERN stack e-commerce web application** designed for buying and selling **wooden products online**. It provides a seamless user experience with secure authentication, product management, shopping cart functionality, and **Stripe API integration** for payments.
 
