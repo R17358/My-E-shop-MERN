@@ -103,7 +103,7 @@ Ensure you have the following installed:
 This project is licensed under the **MIT License**.
 
 ## Contact
-For queries, reach out at **your.email@example.com** or open an issue.
+For queries, reach out at **karanstdio1234@gmail.com** or open an issue.
 
 ---
 
