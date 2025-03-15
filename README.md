@@ -42,8 +42,8 @@ Ensure you have the following installed:
 ### Setup
 1. **Clone the repository**
    ```sh
-   git clone https://github.com/yourusername/ecommerce-wooden-products.git
-   cd ecommerce-wooden-products
+   git clone https://github.com/R17358/my-E-shop-Web.git
+   cd my-E-shop-Web
    ```
 
 2. **Install dependencies**
