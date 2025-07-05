@@ -1,6 +1,6 @@
 # E-Commerce Web Application (Wooden Products Marketplace)
 
-Live: https://my-e-shop-web-frontend.vercel.app/
+Live: https://hindustan-zone.vercel.app
 
 
 ## Overview
