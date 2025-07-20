@@ -26,7 +26,7 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 }
 const corsOptions = {
   origin: process.env.NODE_ENV === "PRODUCTION"
-    ? "https://my-e-shop-web-frontend.vercel.app"
+    ? "https://hindustan-zone.vercel.app"
     : "http://localhost:5173",
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
