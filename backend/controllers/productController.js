@@ -11,7 +11,7 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
   if (!imageBuffer) {
     return next(new Error("No image file provided"));
   }
-
+  
   const imagesLinks = [];
 
   // Assuming imageBuffer is in base64

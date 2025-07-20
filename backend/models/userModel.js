@@ -19,10 +19,20 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, "Please Enter Your Password"],
+    // 🔽 Make password optional for Google users
+    required: function () {
+      return !this.googleId;
+    },
     minLength: [8, "Password should be greater than 8 characters"],
     select: false,
   },
+  
+  // 🔽 Add Google ID
+  googleId: {
+    type: String,
+    default: null,
+  },
+
   avatar: {
     public_id: {
       type: String,

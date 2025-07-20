@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Payment = () => {
-  const orderInfo = JSON.parse(localStorage.getItem("orderInfo"));
+  const orderInfo = JSON.parse(localStorage.getItem("orderInfo")) || {};
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const stripe = useStripe();
@@ -50,11 +50,15 @@ const Payment = () => {
     payBtn.current.disabled = true;
 
     try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
+     
+        const config = {
+          headers: {
+            "Content-Type":"application/json",
+             Authorization: `Bearer ${localStorage.getItem("token")}`,
+             withCredentials:true
+          },
+        };
+    
       const { data } = await axios.post(
         "/payment/process",
         paymentData,
@@ -63,7 +67,10 @@ const Payment = () => {
 
       const client_secret = data.client_secret;
 
-      if (!stripe || !elements) return;
+      if (!stripe || !elements) {
+        payBtn.current.disabled = false;
+        return;
+      }
 
       const result = await stripe.confirmCardPayment(client_secret, {
         payment_method: {

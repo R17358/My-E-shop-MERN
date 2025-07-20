@@ -4,8 +4,20 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 const mongoose = require("mongoose");
 
-exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
-  const { token } = req.cookies;
+
+exports.isAuthenticatedUser = async (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return next(new ErrorHander("Please login to access this resource", 401));
+  }
+
+  const token = authHeader.split(" ")[1]; // Extract the token
+
+// exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
+//   console.log(req);
+//   const { token } = req.cookies;
+
   if (!token) {
     return next(new ErrorHander("Please Login to access this resource", 401));
   }
@@ -27,7 +39,7 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
   //console.log("User found:", req.user);
 
   next();
-});
+};
 
 exports.authorizeRoles = (...roles) => {
   return (req, res, next) => {

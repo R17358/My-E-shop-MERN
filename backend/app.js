@@ -4,27 +4,56 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
 const path = require("path");
-const cors = require("cors")
-
-
-app.use(cors({
-  origin: "http://localhost:5173", // allow only your frontend origin
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,               // allow cookies if needed
-}));
-
-
+const cors = require("cors");
+const helmet = require("helmet");
+const morgan = require("morgan");
 const errorMiddleware = require("./middleware/error");
+
+const session = require("express-session");
+const passport = require("passport");
+require("./config/passport")(passport); // <-- you already created this file
+
 
 // Config
 if (process.env.NODE_ENV !== "PRODUCTION") {
-  require("dotenv").config({ path: "backend/config/config.env" });
+  require("dotenv").config({ path: "config/config.env" });
 }
 
-app.use(express.json());
+// Middleware
+app.use(helmet());
+if (process.env.NODE_ENV !== "PRODUCTION") {
+  app.use(morgan("dev"));
+}
+const corsOptions = {
+  origin: process.env.NODE_ENV === "PRODUCTION"
+    ? "https://my-e-shop-web-frontend.vercel.app"
+    : "http://localhost:5173",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+};
+app.use(cors(corsOptions));
 app.use(cookieParser());
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(fileUpload());
+app.use(fileUpload({ limits: { fileSize: 10 * 1024 * 1024 } })); // 10MB limit
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "your_secret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === "PRODUCTION", // true in production
+      httpOnly: true,
+      sameSite: "lax",
+    },
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 
 // Route Imports
 const product = require("./routes/productRoute");
@@ -37,13 +66,20 @@ app.use("/api/v1", user);
 app.use("/api/v1", order);
 app.use("/api/v1", payment);
 
-app.use(express.static(path.join(__dirname, "../frontend/build")));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"));
+// 404 Handler for undefined API routes
+app.use("/api", (req, res) => {
+  res.status(404).json({ success: false, message: "API route not found" });
 });
 
-// Middleware for Errors
+// Static Files
+if (process.env.NODE_ENV === "PRODUCTION") {
+  app.use(express.static(path.join(__dirname, "../frontend/build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"));
+  });
+}
+
+// Error Middleware
 app.use(errorMiddleware);
 
 module.exports = app;

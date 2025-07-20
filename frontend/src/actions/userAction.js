@@ -94,8 +94,13 @@ export const register = (userData) => async (dispatch) => {
 export const loadUser = () => async (dispatch) => {
   try {
     dispatch({ type: LOAD_USER_REQUEST });
-
-    const { data } = await axios.get(`/me`);
+    const config = {
+      headers: {
+        //"Content-Type": "application/json",
+         Authorization: `Bearer ${localStorage.getItem("token")}`
+      },
+    };
+    const { data } = await axios.get(`/me`,config);
 
     dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
   } catch (error) {
@@ -126,7 +131,12 @@ export const updateProfile = (userData) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_PROFILE_REQUEST });
 
-    const config = { headers: { "Content-Type": "multipart/form-data" } };
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+         Authorization: `Bearer ${localStorage.getItem("token")}`
+      },
+    };
 
     const { data } = await axios.put(`/me/update`, userData, config);
 
@@ -143,8 +153,12 @@ export const updateProfile = (userData) => async (dispatch) => {
 export const updatePassword = (passwords) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_PASSWORD_REQUEST });
-
-    const config = { headers: { "Content-Type": "application/json" } };
+    const config = {
+      headers: {
+        "Content-Type": " application/json ",
+         Authorization: `Bearer ${localStorage.getItem("token")}`
+      },
+    };
 
     const { data } = await axios.put(
       `/password/update`,
@@ -205,7 +219,12 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
 export const getAllUsers = () => async (dispatch) => {
   try {
     dispatch({ type: ALL_USERS_REQUEST });
-    const { data } = await axios.get(`/admin/users`);
+    const config = {
+      headers: {
+         Authorization: `Bearer ${localStorage.getItem("token")}`
+      },
+    };
+    const { data } = await axios.get(`/admin/users`,config);
 
     dispatch({ type: ALL_USERS_SUCCESS, payload: data.users });
   } catch (error) {
@@ -217,7 +236,12 @@ export const getAllUsers = () => async (dispatch) => {
 export const getUserDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: USER_DETAILS_REQUEST });
-    const { data } = await axios.get(`/admin/user/${id}`);
+    const config = {
+      headers: {
+         Authorization: `Bearer ${localStorage.getItem("token")}`
+      },
+    };
+    const { data } = await axios.get(`/admin/user/${id}`,config);
 
     dispatch({ type: USER_DETAILS_SUCCESS, payload: data.user });
   } catch (error) {
@@ -229,9 +253,13 @@ export const getUserDetails = (id) => async (dispatch) => {
 export const updateUser = (id, userData) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_USER_REQUEST });
-
-    const config = { headers: { "Content-Type": "application/json" } };
-
+    const config = {
+      headers: {
+        "Content-Type": " application/json ",
+         Authorization: `Bearer ${localStorage.getItem("token")}`
+      },
+    };
+  
     const { data } = await axios.put(
       `/admin/user/${id}`,
       userData,
@@ -251,8 +279,12 @@ export const updateUser = (id, userData) => async (dispatch) => {
 export const deleteUser = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_USER_REQUEST });
-
-    const { data } = await axios.delete(`/admin/user/${id}`);
+    const config = {
+      headers: {
+         Authorization: `Bearer ${localStorage.getItem("token")}`
+      },
+    };
+    const { data } = await axios.delete(`/admin/user/${id}`, config);
 
     dispatch({ type: DELETE_USER_SUCCESS, payload: data });
   } catch (error) {
