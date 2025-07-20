@@ -11,7 +11,8 @@ const errorMiddleware = require("./middleware/error");
 
 const session = require("express-session");
 const passport = require("passport");
-require("./config/passport")(passport); // <-- you already created this file
+require("./config/passport"); // ✅ Just require, no function call
+ // <-- you already created this file
 
 
 // Config
