@@ -14,7 +14,8 @@ const {
   deleteUser,
 } = require("../controllers/userController");
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
-const passport = require("../config/passport");
+const passport = require("passport");
+
 const jwt = require("jsonwebtoken"); // ✅ ADD THIS
 const User = require("../models/userModel"); // ✅ ADD THIS
 
