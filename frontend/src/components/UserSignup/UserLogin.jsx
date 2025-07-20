@@ -60,7 +60,7 @@ function UserSignIn() {
 
                     <button
                         onClick={() => {
-                            window.open("https://my-e-shop-web-backend.onrender.com/api/v1/auth/google", "_self");
+                            window.open("https://my-e-shop-web-nrgp.onrender.com/api/v1/auth/google", "_self");
                         }}
                         style={{
                             padding: "10px 20px",
