@@ -1,11 +1,15 @@
+
+
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { googleLoginUser } from "../../actions/userAction";
 
 const GoogleHandler = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { isAuthenticated } = useSelector((state) => state.user);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -13,12 +17,18 @@ const GoogleHandler = () => {
 
     if (token) {
       localStorage.setItem("token", token);
-      dispatch(googleLoginUser()); 
-      navigate("/");
+      dispatch(googleLoginUser());
     } else {
       navigate("/login");
     }
-  }, [navigate, dispatch]);
+  }, [dispatch, navigate]);
+
+  // Wait until Redux reflects the new login state
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/"); // 👈 only navigate once Redux confirms login
+    }
+  }, [isAuthenticated, navigate]);
 
   return <h2>Logging in via Google...</h2>;
 };

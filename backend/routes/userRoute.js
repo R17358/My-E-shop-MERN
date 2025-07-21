@@ -51,23 +51,26 @@ router
 // Google Auth - Step 1: Redirect to Google
 router.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
-// Google Auth - Step 2: Callback from Google
+const sendToken = require("../utils/jwtToken"); // adjust path
+
 router.get(
   "/auth/google/callback",
   passport.authenticate("google", {
     failureRedirect: `${process.env.CLIENT_URL}/login`,
-    session: false, // Since you're using JWT, not sessions
+    session: false,
   }),
   async (req, res) => {
-    // Google auth successful, send JWT token like manual login
     const user = req.user;
 
-    // Your own JWT token function
-    const token = jwt.sign({ id: user._id }, "ABCD");
+    // Option 1: Send as cookie (like manual login)
+    sendToken(user, 200, res);
 
-    res.redirect(`${process.env.CLIENT_URL}/?token=${token}`);
+    // Option 2: Redirect with token (if you prefer that flow)
+    // const token = jwt.sign({ id: user._id }, "ABCD");
+    // res.redirect(`${process.env.CLIENT_URL}/?token=${token}`);
   }
 );
+
 
 // Optional: Auth check
 router.get("/auth/me", async (req, res) => {
