@@ -1,9 +1,7 @@
-
-
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { googleLoginUser } from "../../actions/userAction";
+import { loadUser } from "../actions/userAction"; // adjust if needed
 
 const GoogleHandler = () => {
   const navigate = useNavigate();
@@ -11,24 +9,21 @@ const GoogleHandler = () => {
 
   const { isAuthenticated } = useSelector((state) => state.user);
 
-  // console.log(isAuthenticated, state.user);
-
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("token");
 
     if (token) {
       localStorage.setItem("token", token);
-      dispatch(googleLoginUser());
+      dispatch(loadUser()); // loads user using token
     } else {
       navigate("/login");
     }
   }, [dispatch, navigate]);
 
-  // Wait until Redux reflects the new login state
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/"); // 👈 only navigate once Redux confirms login
+      navigate("/");
     }
   }, [isAuthenticated, navigate]);
 

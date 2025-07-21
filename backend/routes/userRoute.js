@@ -52,6 +52,7 @@ router
 router.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 const sendToken = require("../utils/jwtToken"); // adjust path
+const jwt = require("jsonwebtoken");
 
 router.get(
   "/auth/google/callback",
@@ -62,35 +63,35 @@ router.get(
   async (req, res) => {
     const user = req.user;
 
-    // Option 1: Send as cookie (like manual login)
-    sendToken(user, 200, res);
+    const token = jwt.sign({ id: user._id }, "ABCD", {
+      expiresIn: "15d",
+    });
 
-    // Option 2: Redirect with token (if you prefer that flow)
-    // const token = jwt.sign({ id: user._id }, "ABCD");
-    // res.redirect(`${process.env.CLIENT_URL}/?token=${token}`);
+    // ✅ Redirect to frontend with token in query param
+    res.redirect(`${process.env.CLIENT_URL}/login/success?token=${token}`);
   }
 );
 
 
-// Optional: Auth check
-router.get("/auth/me", async (req, res) => {
-  try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
+// // Optional: Auth check
+// router.get("/google-me", async (req, res) => {
+//   try {
+//     const authHeader = req.headers.authorization;
+//     if (!authHeader || !authHeader.startsWith("Bearer ")) {
+//       return res.status(401).json({ message: "Unauthorized" });
+//     }
 
-    const token = authHeader.split(" ")[1];
-    const decoded = jwt.verify(token, "ABCD");
+//     const token = authHeader.split(" ")[1];
+//     const decoded = jwt.verify(token, "ABCD");
 
-    const user = await User.findById(decoded.id);
-    if (!user) return res.status(404).json({ message: "User not found" });
+//     const user = await User.findById(decoded.id);
+//     if (!user) return res.status(404).json({ message: "User not found" });
 
-    res.status(200).json({ user });
-  } catch (err) {
-    res.status(500).json({ message: "Invalid token or user" });
-  }
-});
+//     res.status(200).json({ user });
+//   } catch (err) {
+//     res.status(500).json({ message: "Invalid token or user" });
+//   }
+// });
 
 
 

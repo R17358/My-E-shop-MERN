@@ -90,23 +90,6 @@ export const register = (userData) => async (dispatch) => {
   }
 };
 
-export const googleLoginUser = () => async (dispatch) => {
-  try {
-    dispatch({ type: "LOAD_USER_REQUEST" });
-
-    const { data } = await axios.get("/auth/me"); // using token from axios headers
-    dispatch({ type: "LOAD_USER_SUCCESS", payload: data.user });
-
-    // Optional: Store to localStorage
-    localStorage.setItem("userName", data.user.name);
-    localStorage.setItem("userRole", data.user.role);
-    localStorage.setItem("userId", data.user._id);
-
-  } catch (error) {
-    dispatch({ type: "LOAD_USER_FAIL", payload: error.response.data.message });
-  }
-};
-
 
 // Load User
 export const loadUser = () => async (dispatch) => {
@@ -119,6 +102,11 @@ export const loadUser = () => async (dispatch) => {
       },
     };
     const { data } = await axios.get(`/me`,config);
+
+    localStorage.setItem("userName", data.user.name)
+    localStorage.setItem("userRole", data.user.role)
+    localStorage.setItem("userId", data.user._id)
+    toast.success("Google Authed!");
 
     dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
   } catch (error) {

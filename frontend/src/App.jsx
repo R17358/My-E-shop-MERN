@@ -31,6 +31,7 @@ import MyOrders from './components/Order/MyOrders'
 import OrderDetails from './components/Order/OrderDetails'
 import OrderList from './components/Admin/OrderList'
 import GoogleHandler from './components/UserSignup/GoogleHandler'
+import LoginSuccess from './pages/LoginSuccess'
 
 const stripePromise = loadStripe("pk_test_51OwJJmSHX593TEEJrYWld45sj3BcosNHNIL34PloU37MsGRNowQKqriEIukMTFjfSNZwkyo41i0S71xR5YVEJdoo00viuK9qkO"); // Replace with your Stripe public key
 
@@ -71,7 +72,7 @@ function App() {
                 <Route path="/order/:id" element={<OrderDetails/>} />
                 <Route path="/admin/orders" element={<OrderList/>} />
                 <Route path="/admin/order/:id" element={<ProcessOrder/>} />
-                <Route path="/auth/google" element={<GoogleHandler />} />
+                 <Route path="/login/success" element={<GoogleHandler />} />
               </Routes>
             <Footer />
           </Router>
