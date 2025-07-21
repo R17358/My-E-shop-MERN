@@ -52,7 +52,6 @@ router
 router.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 const sendToken = require("../utils/jwtToken"); // adjust path
-const jwt = require("jsonwebtoken");
 
 router.get(
   "/auth/google/callback",
