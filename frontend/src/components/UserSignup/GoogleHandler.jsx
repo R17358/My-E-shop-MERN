@@ -1,8 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { googleLoginUser } from "../../actions/userAction";
 
 const GoogleHandler = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -10,12 +13,12 @@ const GoogleHandler = () => {
 
     if (token) {
       localStorage.setItem("token", token);
-      // Optional: fetch user data and store in context/state
-      navigate("/"); // or wherever you want to go
+      dispatch(googleLoginUser()); 
+      navigate("/");
     } else {
       navigate("/login");
     }
-  }, [navigate]);
+  }, [navigate, dispatch]);
 
   return <h2>Logging in via Google...</h2>;
 };
