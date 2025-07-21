@@ -11,6 +11,8 @@ const GoogleHandler = () => {
 
   const { isAuthenticated } = useSelector((state) => state.user);
 
+  console.log(isAuthenticated, state.user);
+
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("token");
