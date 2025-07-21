@@ -65,7 +65,7 @@ router.get(
     // Your own JWT token function
     const token = jwt.sign({ id: user._id }, "ABCD");
 
-    res.redirect(`${process.env.CLIENT_URL}/dashboard?token=${token}`);
+    res.redirect(`${process.env.CLIENT_URL}/?token=${token}`);
   }
 );
 
