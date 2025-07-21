@@ -11,7 +11,7 @@ const GoogleHandler = () => {
     if (token) {
       localStorage.setItem("token", token);
       // Optional: fetch user data and store in context/state
-      navigate("/dashboard"); // or wherever you want to go
+      navigate("/"); // or wherever you want to go
     } else {
       navigate("/login");
     }

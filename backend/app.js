@@ -40,7 +40,7 @@ app.use(fileUpload({ limits: { fileSize: 10 * 1024 * 1024 } })); // 10MB limit
 
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "your_secret",
+    secret: process.env.SESSION_SECRET || "ABCD",
     resave: false,
     saveUninitialized: false,
     cookie: {
