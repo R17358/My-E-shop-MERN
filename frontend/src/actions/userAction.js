@@ -106,7 +106,7 @@ export const loadUser = () => async (dispatch) => {
     localStorage.setItem("userName", data.user.name)
     localStorage.setItem("userRole", data.user.role)
     localStorage.setItem("userId", data.user._id)
-    toast.success("Google Authed!");
+    toast.success("Google Authed! Logged In Successfully");
 
     dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
   } catch (error) {

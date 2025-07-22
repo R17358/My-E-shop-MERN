@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    // 🔽 Make password optional for Google users
+    //  Make password optional for Google users
     required: function () {
       return !this.googleId;
     },
@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
     select: false,
   },
   
-  // 🔽 Add Google ID
+  //  Add Google ID
   googleId: {
     type: String,
     default: null,

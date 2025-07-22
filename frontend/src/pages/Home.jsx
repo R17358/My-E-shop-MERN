@@ -8,19 +8,7 @@ function Home() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // // Step 1: Get token from URL
-    // const params = new URLSearchParams(window.location.search);
-    // const token = params.get('token');
-
-    // if (token) {
-    //   // Step 2: Save token to localStorage
-    //   localStorage.setItem('token', token);
-
-    //   // Step 3 (optional): Clean the URL
-    //   window.history.replaceState({}, document.title, '/');
-    // }
-
-    // Step 4: Dispatch product action
+    
     dispatch(getProduct());
   }, [dispatch]);
 

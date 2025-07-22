@@ -1,51 +1,64 @@
 const express = require("express");
 const app = express();
 
+// ==============================
+// Force HTTPS Redirect (for Render)
+// ==============================
 app.use((req, res, next) => {
-  if (req.headers['x-forwarded-proto'] !== 'https') {
-    return res.redirect('https://' + req.headers.host + req.url);   // to tell render to convert all routes as https
+  if (req.headers["x-forwarded-proto"] !== "https") {
+    return res.redirect("https://" + req.headers.host + req.url);
   }
   next();
 });
 
-
+// ==============================
+// External Packages & Middlewares
+// ==============================
+const path = require("path");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
-const path = require("path");
 const cors = require("cors");
-const helmet = require("helmet");
-const morgan = require("morgan");
-const errorMiddleware = require("./middleware/error");
-
+const helmet = require("helmet"); // protection
+const morgan = require("morgan"); // to debug using logs during development
 const session = require("express-session");
-const passport = require("passport");
-require("./config/passport"); // ✅ Just require, no function call
- // <-- you already created this file
+const passport = require("passport"); // middleware for google auth
 
-
-// Config
+// ==============================
+// Environment Config
+// ==============================
 if (process.env.NODE_ENV !== "PRODUCTION") {
   require("dotenv").config({ path: "config/config.env" });
 }
 
-// Middleware
+// ==============================
+// Passport Config
+// ==============================
+require("./config/passport");
+
+// ==============================
+// App Middlewares
+// ==============================
 app.use(helmet());
+
 if (process.env.NODE_ENV !== "PRODUCTION") {
   app.use(morgan("dev"));
 }
+
 const corsOptions = {
-  origin: process.env.NODE_ENV === "PRODUCTION"
-    ? "https://hindustan-zone.vercel.app"
-    : "http://localhost:5173",
+  origin:
+    process.env.NODE_ENV === "PRODUCTION"
+      ? "https://hindustan-zone.vercel.app"
+      : "http://localhost:5173",
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };
 app.use(cors(corsOptions));
+
 app.use(cookieParser());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(fileUpload({ limits: { fileSize: 10 * 1024 * 1024 } })); // 10MB limit
+app.use(fileUpload({ limits: { fileSize: 10 * 1024 * 1024 } })); // 10MB
 
 app.use(
   session({
@@ -53,7 +66,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === "PRODUCTION", // true in production
+      secure: process.env.NODE_ENV === "PRODUCTION",
       httpOnly: true,
       sameSite: "lax",
     },
@@ -63,25 +76,29 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+// ==============================
+// Routes
+// ==============================
+const productRoutes = require("./routes/productRoute");
+const userRoutes = require("./routes/userRoute");
+const orderRoutes = require("./routes/orderRoute");
+const paymentRoutes = require("./routes/paymentRoute");
 
+app.use("/api/v1", productRoutes);
+app.use("/api/v1", userRoutes);
+app.use("/api/v1", orderRoutes);
+app.use("/api/v1", paymentRoutes);
 
-// Route Imports
-const product = require("./routes/productRoute");
-const user = require("./routes/userRoute");
-const order = require("./routes/orderRoute");
-const payment = require("./routes/paymentRoute");
-
-app.use("/api/v1", product);
-app.use("/api/v1", user);
-app.use("/api/v1", order);
-app.use("/api/v1", payment);
-
-// 404 Handler for undefined API routes
+// ==============================
+// 404 Handler for API
+// ==============================
 app.use("/api", (req, res) => {
   res.status(404).json({ success: false, message: "API route not found" });
 });
 
-// Static Files
+// ==============================
+// Serve Static Files (Frontend)
+// ==============================
 if (process.env.NODE_ENV === "PRODUCTION") {
   app.use(express.static(path.join(__dirname, "../frontend/build")));
   app.get("*", (req, res) => {
@@ -89,7 +106,10 @@ if (process.env.NODE_ENV === "PRODUCTION") {
   });
 }
 
+// ==============================
 // Error Middleware
+// ==============================
+const errorMiddleware = require("./middleware/error");
 app.use(errorMiddleware);
 
 module.exports = app;

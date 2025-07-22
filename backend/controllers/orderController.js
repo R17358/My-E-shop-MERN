@@ -37,6 +37,7 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
 exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
 
   const order = await Order.findById(req.params.id).populate("user", "name email");
+  //populate karne se Order ke json me user ke  id ke saath uska name aur email bhi aa jayega
 
   if (!order) {
     return next(new ErrorHander("Order not found with this Id", 404));
