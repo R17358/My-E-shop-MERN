@@ -3,7 +3,7 @@ const app = express();
 
 app.use((req, res, next) => {
   if (req.headers['x-forwarded-proto'] !== 'https') {
-    return res.redirect('https://' + req.headers.host + req.url);
+    return res.redirect('https://' + req.headers.host + req.url);   // to tell render to convert all routes as https
   }
   next();
 });
