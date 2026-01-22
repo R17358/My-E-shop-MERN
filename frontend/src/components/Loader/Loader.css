@@ -1,0 +1,23 @@
+/* Loader.css */
+.loaderContainer {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader {
+  width: 60px;
+  height: 60px;
+  border: 6px solid #ddd;
+  border-top: 6px solid #1976d2;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

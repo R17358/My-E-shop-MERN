@@ -1,5 +1,9 @@
 import axios from 'axios';
 
+// http://localhost:4000/api/v1
+
+// https://my-e-shop-mern.onrender.com/api/v1
+
 axios.defaults.withCredentials = true;
 const instance = axios.create({
 

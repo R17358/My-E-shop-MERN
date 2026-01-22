@@ -46,7 +46,7 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 }
 
 const corsOptions = {
-  origin:
+  origin: 
     process.env.NODE_ENV === "PRODUCTION"
       ? "https://hindustan-zone.vercel.app"
       : "http://localhost:5173",
@@ -54,6 +54,8 @@ const corsOptions = {
   credentials: true,
 };
 app.use(cors(corsOptions));
+
+
 
 app.use(cookieParser());
 app.use(express.json());

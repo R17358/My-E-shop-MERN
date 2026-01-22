@@ -3,6 +3,7 @@ import Product from '../components/productCard/Product';
 import './Home.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProduct } from '../actions/productAction';
+import Loader from '../components/Loader/Loader'
 
 function Home() {
   const dispatch = useDispatch();
@@ -11,8 +12,10 @@ function Home() {
     
     dispatch(getProduct());
   }, [dispatch]);
+   
+   const {products = [], loading, error} = useSelector((state)=>state.products);
 
-  const { products = [] } = useSelector((state) => state.products);
+    if (loading) return <Loader />;
 
   return (
     <div>
