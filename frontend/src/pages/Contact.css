@@ -1,0 +1,583 @@
+/* Contact Page - Modern Design with Dark Mode Support */
+
+.contactPage {
+  min-height: 70vh;
+  padding: 4vmax 2vmax;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, 
+    rgba(236, 72, 153, 0.05) 0%, 
+    rgba(139, 92, 246, 0.05) 100%
+  );
+}
+
+@media (prefers-color-scheme: dark) {
+  .contactPage {
+    background: linear-gradient(135deg, 
+      rgba(236, 72, 153, 0.1) 0%, 
+      rgba(139, 92, 246, 0.1) 100%
+    );
+  }
+}
+
+.contactContainer {
+  max-width: 1000px;
+  width: 100%;
+  background: var(--card-bg, #ffffff);
+  border-radius: 24px;
+  padding: 4vmax;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color, #e5e7eb);
+  transition: all 0.3s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+  .contactContainer {
+    background: var(--card-bg, #1f2937);
+    border-color: var(--border-color, #374151);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.contactHeader {
+  text-align: center;
+  margin-bottom: 4vmax;
+  padding-bottom: 3vmax;
+  border-bottom: 2px solid var(--border-color, #e5e7eb);
+}
+
+@media (prefers-color-scheme: dark) {
+  .contactHeader {
+    border-bottom-color: var(--border-color, #374151);
+  }
+}
+
+.contactIcon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 2vmax;
+  background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 8px 24px rgba(236, 72, 153, 0.3);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 8px 24px rgba(236, 72, 153, 0.3);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 12px 32px rgba(236, 72, 153, 0.4);
+  }
+}
+
+.contactHeader h1 {
+  font-size: 3vmax;
+  font-weight: 700;
+  color: var(--text-primary, #1f2937);
+  margin-bottom: 1vmax;
+  background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@media (prefers-color-scheme: dark) {
+  .contactHeader h1 {
+    color: var(--text-primary, #f9fafb);
+  }
+}
+
+.contactTagline {
+  font-size: 1.3vmax;
+  color: var(--text-secondary, #6b7280);
+  font-weight: 400;
+  margin: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .contactTagline {
+    color: var(--text-secondary, #d1d5db);
+  }
+}
+
+.contactContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4vmax;
+}
+
+.contactIntro {
+  text-align: center;
+  padding: 2vmax 3vmax;
+}
+
+.contactIntro h2 {
+  font-size: 2vmax;
+  font-weight: 700;
+  color: var(--text-primary, #1f2937);
+  margin-bottom: 1.5vmax;
+}
+
+@media (prefers-color-scheme: dark) {
+  .contactIntro h2 {
+    color: var(--text-primary, #f9fafb);
+  }
+}
+
+.contactIntro p {
+  font-size: 1.2vmax;
+  line-height: 1.8;
+  color: var(--text-secondary, #4b5563);
+  margin: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .contactIntro p {
+    color: var(--text-secondary, #d1d5db);
+  }
+}
+
+.contactGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2vmax;
+  margin-top: 2vmax;
+}
+
+.contactCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2.5vmax 2vmax;
+  background: var(--input-bg, #f9fafb);
+  border-radius: 16px;
+  border: 2px solid var(--border-color, #e5e7eb);
+  transition: all 0.3s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+  .contactCard {
+    background: var(--input-bg, #374151);
+    border-color: var(--border-color, #4b5563);
+  }
+}
+
+.contactCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(139, 92, 246, 0.2);
+  border-color: #8b5cf6;
+}
+
+.cardIcon {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 1.5vmax;
+  background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.contactCard h3 {
+  font-size: 1.2vmax;
+  font-weight: 600;
+  color: var(--text-primary, #1f2937);
+  margin: 0 0 1vmax 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .contactCard h3 {
+    color: var(--text-primary, #f9fafb);
+  }
+}
+
+.contactCard p,
+.contactCard a {
+  font-size: 1vmax;
+  color: var(--text-secondary, #6b7280);
+  margin: 0;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  word-break: break-word;
+}
+
+@media (prefers-color-scheme: dark) {
+  .contactCard p,
+  .contactCard a {
+    color: var(--text-secondary, #d1d5db);
+  }
+}
+
+.contactCard a:hover {
+  color: #8b5cf6;
+}
+
+.socialSection {
+  text-align: center;
+  padding: 3vmax 0 1vmax;
+  border-top: 2px solid var(--border-color, #e5e7eb);
+}
+
+@media (prefers-color-scheme: dark) {
+  .socialSection {
+    border-top-color: var(--border-color, #374151);
+  }
+}
+
+.socialSection h2 {
+  font-size: 2vmax;
+  font-weight: 700;
+  color: var(--text-primary, #1f2937);
+  margin-bottom: 1vmax;
+}
+
+@media (prefers-color-scheme: dark) {
+  .socialSection h2 {
+    color: var(--text-primary, #f9fafb);
+  }
+}
+
+.socialDescription {
+  font-size: 1.2vmax;
+  color: var(--text-secondary, #6b7280);
+  margin-bottom: 3vmax;
+}
+
+@media (prefers-color-scheme: dark) {
+  .socialDescription {
+    color: var(--text-secondary, #d1d5db);
+  }
+}
+
+.socialLinks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2vmax;
+  margin-top: 2vmax;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  gap: 1.5vmax;
+  padding: 2vmax;
+  border-radius: 16px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 2px solid var(--border-color, #e5e7eb);
+  background: var(--input-bg, #ffffff);
+}
+
+@media (prefers-color-scheme: dark) {
+  .socialLink {
+    border-color: var(--border-color, #4b5563);
+    background: var(--input-bg, #374151);
+  }
+}
+
+.socialLink:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.socialLink.youtube {
+  border-color: #ff0000;
+}
+
+.socialLink.youtube:hover {
+  background: #ff0000;
+  box-shadow: 0 8px 24px rgba(255, 0, 0, 0.3);
+}
+
+.socialLink.youtube:hover svg,
+.socialLink.youtube:hover .socialText h4,
+.socialLink.youtube:hover .socialText p {
+  color: white;
+}
+
+.socialLink.linkedin {
+  border-color: #0077b5;
+}
+
+.socialLink.linkedin:hover {
+  background: #0077b5;
+  box-shadow: 0 8px 24px rgba(0, 119, 181, 0.3);
+}
+
+.socialLink.linkedin:hover svg,
+.socialLink.linkedin:hover .socialText h4,
+.socialLink.linkedin:hover .socialText p {
+  color: white;
+}
+
+.socialLink.github {
+  border-color: #333;
+}
+
+.socialLink.github:hover {
+  background: #333;
+  box-shadow: 0 8px 24px rgba(51, 51, 51, 0.3);
+}
+
+.socialLink.github:hover svg,
+.socialLink.github:hover .socialText h4,
+.socialLink.github:hover .socialText p {
+  color: white;
+}
+
+.socialLink svg {
+  flex-shrink: 0;
+  transition: color 0.3s ease;
+}
+
+.socialLink.youtube svg {
+  color: #ff0000;
+}
+
+.socialLink.linkedin svg {
+  color: #0077b5;
+}
+
+.socialLink.github svg {
+  color: #333;
+}
+
+@media (prefers-color-scheme: dark) {
+  .socialLink.github svg {
+    color: #f0f6fc;
+  }
+  
+  .socialLink.github {
+    border-color: #8b949e;
+  }
+  
+  .socialLink.github:hover {
+    background: #21262d;
+    border-color: #f0f6fc;
+  }
+}
+
+.socialText {
+  text-align: left;
+  flex: 1;
+}
+
+.socialText h4 {
+  font-size: 1.2vmax;
+  font-weight: 600;
+  color: var(--text-primary, #1f2937);
+  margin: 0 0 0.3vmax 0;
+  transition: color 0.3s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+  .socialText h4 {
+    color: var(--text-primary, #f9fafb);
+  }
+}
+
+.socialText p {
+  font-size: 0.9vmax;
+  color: var(--text-secondary, #6b7280);
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+  .socialText p {
+    color: var(--text-secondary, #d1d5db);
+  }
+}
+
+/* Tablet Responsive */
+@media screen and (max-width: 900px) {
+  .contactPage {
+    padding: 3vmax 2vmax;
+  }
+
+  .contactContainer {
+    padding: 3vmax;
+  }
+
+  .contactHeader h1 {
+    font-size: 4vmax;
+  }
+
+  .contactTagline {
+    font-size: 1.8vmax;
+  }
+
+  .contactIntro h2,
+  .socialSection h2 {
+    font-size: 2.5vmax;
+  }
+
+  .contactIntro p,
+  .socialDescription {
+    font-size: 1.6vmax;
+  }
+
+  .contactCard h3 {
+    font-size: 1.6vmax;
+  }
+
+  .contactCard p,
+  .contactCard a {
+    font-size: 1.4vmax;
+  }
+
+  .socialText h4 {
+    font-size: 1.6vmax;
+  }
+
+  .socialText p {
+    font-size: 1.3vmax;
+  }
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 600px) {
+  .contactPage {
+    padding: 3vmax 1.5vmax;
+  }
+
+  .contactContainer {
+    padding: 4vmax 3vmax;
+    border-radius: 20px;
+  }
+
+  .contactIcon {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 3vmax;
+  }
+
+  .contactHeader {
+    margin-bottom: 5vmax;
+    padding-bottom: 4vmax;
+  }
+
+  .contactHeader h1 {
+    font-size: 6vmax;
+    margin-bottom: 2vmax;
+  }
+
+  .contactTagline {
+    font-size: 3vmax;
+  }
+
+  .contactContent {
+    gap: 5vmax;
+  }
+
+  .contactIntro {
+    padding: 2vmax 1vmax;
+  }
+
+  .contactIntro h2,
+  .socialSection h2 {
+    font-size: 4vmax;
+    margin-bottom: 2.5vmax;
+  }
+
+  .contactIntro p,
+  .socialDescription {
+    font-size: 3vmax;
+    line-height: 1.7;
+  }
+
+  .contactGrid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 3vmax;
+  }
+
+  .contactCard {
+    padding: 4vmax 2.5vmax;
+    border-radius: 14px;
+  }
+
+  .cardIcon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 2vmax;
+  }
+
+  .cardIcon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .contactCard h3 {
+    font-size: 3vmax;
+    margin-bottom: 1.5vmax;
+  }
+
+  .contactCard p,
+  .contactCard a {
+    font-size: 2.5vmax;
+  }
+
+  .socialSection {
+    padding: 4vmax 0 1vmax;
+  }
+
+  .socialDescription {
+    margin-bottom: 4vmax;
+  }
+
+  .socialLinks {
+    grid-template-columns: 1fr;
+    gap: 3vmax;
+  }
+
+  .socialLink {
+    gap: 3vmax;
+    padding: 3vmax;
+    border-radius: 14px;
+  }
+
+  .socialLink svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .socialText h4 {
+    font-size: 3vmax;
+    margin-bottom: 0.5vmax;
+  }
+
+  .socialText p {
+    font-size: 2.5vmax;
+  }
+}
+
+/* Extra Small Mobile */
+@media screen and (max-width: 400px) {
+  .contactContainer {
+    padding: 5vmax 2.5vmax;
+  }
+
+  .contactHeader h1 {
+    font-size: 7vmax;
+  }
+
+  .contactIcon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .contactGrid {
+    grid-template-columns: 1fr;
+  }
+}

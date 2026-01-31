@@ -1,44 +1,78 @@
 import React from 'react'
 import './ProductRow.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Trash2, Eye, DollarSign, Package, Tag, Edit } from 'lucide-react';
 
 function ProductRow({ product, onDelete }) {
+    const navigate = useNavigate();
 
-    const handleDelete = () => {
+    const handleDelete = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         if (window.confirm(`Are you sure you want to delete "${product.name}"?`)) {
-            onDelete(product._id); // Call the onDelete function with the product ID
+            onDelete(product._id);
         }
     };
 
+    const handleEdit = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        navigate(`/admin/product/${product._id}`);
+    };
+
     return (
-        <div className='mainContain'>
-            <div className="rowContainer">
-                <Link to={`/product/${product._id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'flex', flexGrow: 1 }}>
-                    <div className="row">
-                        <div className="id">
-                            <p>#{product._id}</p>
+        <div className='product-row-card'>
+            <Link to={`/product/${product._id}`} className="product-row-link">
+                <div className="product-row-image">
+                    {product.images && product.images[0] ? (
+                        <img src={product.images[0].url} alt={product.name} />
+                    ) : (
+                        <Package size={32} />
+                    )}
+                </div>
+
+                <div className="product-row-details">
+                    <div className="product-row-main">
+                        <h3 className="product-row-name">{product.name}</h3>
+                        <span className="product-row-id">#{product._id}</span>
+                    </div>
+
+                    <div className="product-row-meta">
+                        <div className="meta-item">
+                            <DollarSign size={16} />
+                            <span>₹{product.price}</span>
                         </div>
-                        <div className="other">
-                            <div className="title">
-                                <h4>{product.name}</h4>
-                            </div>
-                            <div className="price">
-                                <h5>PRICE: {product.price}/-</h5>
-                            </div>
-                            <div className="price">
-                                <h5>STOCK: {product.stock}</h5>
-                            </div>
-                            <div className="price">
-                                <h5>CATEGORY: {product.category}</h5>
-                            </div>
+                        <div className="meta-item">
+                            <Package size={16} />
+                            <span>Stock: {product.stock}</span>
+                        </div>
+                        <div className="meta-item">
+                            <Tag size={16} />
+                            <span>{product.category}</span>
                         </div>
                     </div>
-                </Link>
-                {/* Separate DELETE button */}
-                <div className="delete">
-                    <button onClick={handleDelete}>DELETE</button>
                 </div>
-            </div>
+
+                <div className="product-row-actions">
+                    <button className="view-btn" title="View Product">
+                        <Eye size={18} />
+                    </button>
+                    <button 
+                        className="edit-btn" 
+                        onClick={handleEdit}
+                        title="Edit Product"
+                    >
+                        <Edit size={18} />
+                    </button>
+                    <button 
+                        className="delete-btn" 
+                        onClick={handleDelete}
+                        title="Delete Product"
+                    >
+                        <Trash2 size={18} />
+                    </button>
+                </div>
+            </Link>
         </div>
     );
 }

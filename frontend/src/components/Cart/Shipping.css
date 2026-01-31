@@ -1,112 +1,193 @@
-.shippingContainer {
-  width: 100vw;
-  max-width: 100%;
+/* Shipping Container */
+.shipping-container {
+  min-height: 70vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  padding: 40px 20px;
 }
 
-.shippingBox {
-  background-color: white;
-  margin: 24px 0px;
-  height: 90vh;
-  box-sizing: border-box;
-  border-radius: 35px;
+.shipping-card {
+  background: var(--card-bg);
+  border-radius: 24px;
+  box-shadow: 0 4px 24px var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  max-width: 600px;
+  width: 100%;
   overflow: hidden;
+  animation: fadeInUp 0.6s ease;
 }
 
-.shippingHeading {
+.shipping-header {
   text-align: center;
-  color: rgba(0, 0, 0, 0.664);
-  font: 400 1.3vmax "Roboto";
-  padding: 1.3vmax;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.205);
-  width: 50%;
-  margin: auto;
+  padding: 32px 24px 24px;
+  border-bottom: 1px solid var(--border-color);
 }
 
-.shippingForm {
+.shipping-icon {
+  color: var(--accent-primary);
+  margin-bottom: 12px;
+}
+
+.shipping-header h2 {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0 0 8px 0;
+}
+
+.shipping-header p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Shipping Form */
+.shipping-form {
+  padding: 32px 24px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin: auto;
-  padding: 2vmax;
-  justify-content: space-evenly;
-  height: 80%;
-  transition: all 0.5s;
+  gap: 20px;
 }
 
-.shippingForm > div {
+.form-group {
   display: flex;
-  width: 100%;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
   align-items: center;
+  gap: 6px;
 }
 
-.shippingForm > div > input,
-.shippingForm > div > select {
-  padding: 1vmax 4vmax;
-  padding-right: 1vmax;
-  width: 100%;
-  box-sizing: border-box;
-  border: 1px solid rgba(0, 0, 0, 0.267);
-  border-radius: 4px;
-  font: 300 0.9vmax cursive;
+.form-group input,
+.form-group select {
+  padding: 14px 16px;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  font-size: 15px;
+  color: var(--text-primary);
+  background: var(--input-bg);
+  transition: all 0.3s ease;
   outline: none;
 }
 
-.shippingForm > div > svg {
-  position: absolute;
-  transform: translateX(1vmax);
-  font-size: 1.6vmax;
-  color: rgba(0, 0, 0, 0.623);
+.form-group input:focus,
+.form-group select:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px var(--focus-ring);
 }
 
-.shippingBtn {
-  border: none;
-  background-color: tomato;
+.form-group input::placeholder {
+  color: var(--text-secondary);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Submit Button */
+.shipping-submit-btn {
+  margin-top: 8px;
+  padding: 16px 24px;
+  background: var(--accent-primary);
   color: white;
-  font: 300 1vmax "Roboto";
-  width: 100%;
-  padding: 1vmax;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.5s;
-  outline: none;
-  margin: 2vmax;
+  transition: all 0.3s ease;
 }
 
-.shippingBtn:hover {
-  background-color: rgb(179, 66, 46);
+.shipping-submit-btn:hover:not(:disabled) {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--shadow-hover);
 }
 
-@media screen and (max-width: 600px) {
-  .shippingBox {
-    width: 100vw;
-    height: 95vh;
+.shipping-submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Remove number input spinners */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .shipping-container {
+    padding: 24px 16px;
   }
 
-  .shippingHeading {
-    font: 400 6vw "Roboto";
-    padding: 5vw;
+  .shipping-card {
+    border-radius: 20px;
   }
 
-  .shippingForm {
-    padding: 11vw;
+  .shipping-header {
+    padding: 24px 20px 20px;
   }
 
-  .shippingForm > div > input,
-  .shippingForm > div > select {
-    padding: 5vw 10vw;
-    font: 300 4vw cursive;
+  .shipping-header h2 {
+    font-size: 24px;
   }
 
-  .shippingForm > div > svg {
-    font-size: 6vw;
-    transform: translateX(3vw);
+  .shipping-form {
+    padding: 24px 20px;
+    gap: 16px;
   }
 
-  .shippingBtn {
-    font: 300 4vw "Roboto";
-    padding: 4vw;
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .shipping-container {
+    padding: 20px 12px;
+  }
+
+  .shipping-header {
+    padding: 20px 16px 16px;
+  }
+
+  .shipping-header h2 {
+    font-size: 22px;
+  }
+
+  .shipping-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .shipping-form {
+    padding: 20px 16px;
+  }
+
+  .form-group input,
+  .form-group select {
+    padding: 12px 14px;
+    font-size: 14px;
+  }
+
+  .shipping-submit-btn {
+    padding: 14px 20px;
+    font-size: 15px;
   }
 }

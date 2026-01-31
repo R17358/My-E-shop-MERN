@@ -1,99 +1,253 @@
-.row{
-    width: 100vw;
-    height: 18vh;
-    /* margin: 16px 7px; */
-    /* padding: 0px 44px;*/
+/* Product Row Card */
+.product-row-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease;
 }
 
-.id{
-    width: 96vw;
-    height: 3vh;
-    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
-    border-radius: 8px;
-    margin: 3px 14px;
+.product-row-card:hover {
+  box-shadow: 0 8px 24px var(--shadow-hover);
+  transform: translateY(-2px);
 }
 
-.id p{
-    text-align: center;
+.product-row-link {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px;
+  text-decoration: none;
+  color: inherit;
 }
 
-.other{
-    width: 93vw;
-    height: 10vh;
-    display: flex;
-    flex-direction: row;
+/* Product Image */
+.product-row-image {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--image-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.other .title{
-    width: 62vw;
-    height: 5vh;
-    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
-    border-radius: 11px;
-    margin: 8px 14px;
+.product-row-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.title h4{
-    text-align: center;
-    margin: 6px 0px;
-}
-.other .price{
-    width: 25vw;
-    height: 5vh;
-    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
-    border-radius: 14px;
-    margin: 9px 7px;
+.product-row-image svg {
+  color: var(--text-secondary);
+  opacity: 0.5;
 }
 
-.price h5{
-    text-align: center;
-    margin: 10px;
+/* Product Details */
+.product-row-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
 }
 
-.other .delete{
-    width: 14vw;
-    border-radius: 39px;
-    height: 15vh;
-    margin: 3px 72px;
+.product-row-main {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.rowContainer{
-    display: flex;
+.product-row-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-row-id {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-family: monospace;
+}
+
+.product-row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.meta-item svg {
+  color: var(--accent-primary);
+  flex-shrink: 0;
+}
+
+.meta-item span {
+  white-space: nowrap;
+}
+
+/* Product Actions */
+.product-row-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.view-btn,
+.edit-btn,
+.delete-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.view-btn {
+  background: transparent;
+  border: 2px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.view-btn:hover {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: white;
+  transform: scale(1.05);
+}
+
+.edit-btn {
+  background: transparent;
+  border: 2px solid var(--border-color);
+  color: #10b981;
+}
+
+.edit-btn:hover {
+  background: #10b981;
+  border-color: #10b981;
+  color: white;
+  transform: scale(1.05);
+}
+
+.delete-btn {
+  background: transparent;
+  border: 2px solid var(--border-color);
+  color: #ef4444;
+}
+
+.delete-btn:hover {
+  background: #ef4444;
+  border-color: #ef4444;
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .product-row-link {
+    gap: 16px;
+    padding: 14px;
+  }
+
+  .product-row-image {
+    width: 70px;
+    height: 70px;
+  }
+
+  .product-row-name {
+    font-size: 16px;
+  }
+
+  .product-row-meta {
+    gap: 12px;
+  }
+
+  .meta-item {
+    font-size: 13px;
+  }
+
+  .product-row-actions {
+    gap: 6px;
+  }
+}
+
+@media (max-width: 640px) {
+  .product-row-link {
     flex-wrap: wrap;
-    flex-direction: row;
-    align-items: center;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    justify-content: space-evenly;
-    height: 21vh;
-    width: 98vw;
-    /* margin: 0; */
-    border-radius: 8px;
-    /* box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px; */
-    /* box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;*/
+  }
+
+  .product-row-details {
+    flex-basis: 100%;
+    order: 2;
+  }
+
+  .product-row-image {
+    order: 1;
+  }
+
+  .product-row-actions {
+    order: 3;
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .product-row-meta {
+    flex-direction: column;
+    gap: 8px;
+  }
 }
 
-.rowContainer a{
-    height: 83px;
-}
+@media (max-width: 480px) {
+  .product-row-link {
+    padding: 12px;
+    gap: 12px;
+  }
 
-.delete button{
-    padding: 12px 43px;
-    border-radius: 13px;
-    margin: 6px 28px;
-    border-style: none;
-    background-color: #772d8a;
-    color: antiquewhite;
-    font-weight: 700;
-    cursor: pointer;
-}
+  .product-row-image {
+    width: 60px;
+    height: 60px;
+  }
 
-.delete button:hover{
-    background-color: #19193f;
-}
+  .product-row-name {
+    font-size: 15px;
+  }
 
-.price h5{
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-}
+  .product-row-id {
+    font-size: 11px;
+  }
 
-.rowContainer:hover{
-    box-shadow: rgb(0 0 0) 0px 19px 38px, rgb(0 0 0 / 25%) 0px 15px 12px;
+  .meta-item {
+    font-size: 12px;
+  }
+
+  .view-btn,
+  .edit-btn,
+  .delete-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .view-btn svg,
+  .edit-btn svg,
+  .delete-btn svg {
+    width: 16px;
+    height: 16px;
+  }
 }

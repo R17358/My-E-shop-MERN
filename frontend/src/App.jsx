@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
 import store from "./store"
 import { Provider } from 'react-redux'
@@ -11,7 +10,7 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import  Icon from './components/Icon/Icon'
 import UserSignUp from './components/UserSignup/UserSignUp'
-import UserLogin from './components/UserSignup/UserLogin'
+import UserLogin from './components/UserSignup/UserSignIn'
 import Profile from './components/CreateProduct/Profile'
 import { ToastContainer } from "react-toastify";
 import ProductPage from './pages/ProductPage'
@@ -31,18 +30,36 @@ import MyOrders from './components/Order/MyOrders'
 import OrderDetails from './components/Order/OrderDetails'
 import OrderList from './components/Admin/OrderList'
 import GoogleHandler from './pages/GoogleHandler'
+import UpdateProduct from './components/dashboard/UpdateProduct'
+import { Sun, Moon } from 'lucide-react';
 
 const stripePromise = loadStripe("pk_test_51OwJJmSHX593TEEJrYWld45sj3BcosNHNIL34PloU37MsGRNowQKqriEIukMTFjfSNZwkyo41i0S71xR5YVEJdoo00viuK9qkO"); // Replace with your Stripe public key
 
 //4000003560000008
 
 function App() {
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+
+  useEffect(() => {
+    // Set theme on initial load and whenever it changes
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+  };
   
   return (
       <Provider store={store}>
           <Router>
           <Header />
           <ToastContainer position="top-right" autoClose={2000} />
+          
+          {/* Global Theme Toggle Button */}
+          <button className="theme-toggle-btn" onClick={toggleTheme} aria-label="Toggle theme">
+            {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+          </button>
                  
               <Routes>
                   <Route path="/" element={<Home/>} />
@@ -72,6 +89,7 @@ function App() {
                 <Route path="/admin/orders" element={<OrderList/>} />
                 <Route path="/admin/order/:id" element={<ProcessOrder/>} />
                  <Route path="/login/success" element={<GoogleHandler />} />
+                 <Route path="/admin/product/:id" element={<UpdateProduct />} />
               </Routes>
             <Footer />
           </Router>

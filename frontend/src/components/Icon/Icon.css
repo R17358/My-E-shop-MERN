@@ -1,46 +1,240 @@
-.icon{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    height: 40vh;
-}
-.icon button{
-    background-color: #4a7136;
-}
-.icon button:hover{
-    background-color: #203217;
+/* Icon Page */
+.icon-page {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  animation: fadeIn 0.6s ease;
 }
 
-.icon .subsection{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 56vw;
+/* Welcome Section */
+.user-welcome-section {
+  max-width: 900px;
+  width: 100%;
 }
 
-.icon h1{
-    color: brown;
+.welcome-header {
+  text-align: center;
+  margin-bottom: 48px;
+  animation: fadeInUp 0.6s ease;
 }
 
-.icon .log{
-    display: flex;
-    flex-direction: row;
-    width: 22vw;
-    justify-content: space-around;
+.user-icon {
+  color: var(--accent-primary);
+  margin-bottom: 16px;
 }
 
-@media (max-width:520px)
-{
-    .icon .subsection{
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
-        height: 20vh;
-    }
-    .welcome-message{
-        height: 40vh;
-    }
+.welcome-header h1 {
+  font-size: 36px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+}
+
+.user-subtitle {
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
+/* Action Cards */
+.action-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  animation: fadeInUp 0.6s ease 0.2s both;
+}
+
+.action-card {
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 20px;
+  padding: 32px 24px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.action-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px var(--shadow-hover);
+  border-color: var(--accent-primary);
+}
+
+.action-card svg {
+  color: var(--accent-primary);
+  margin-bottom: 8px;
+  transition: transform 0.3s ease;
+}
+
+.action-card:hover svg {
+  transform: scale(1.1);
+}
+
+.action-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.action-card p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.admin-card {
+  border-color: var(--accent-primary);
+}
+
+.admin-card:hover {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(236, 72, 153, 0.1));
+}
+
+/* Auth Prompt Section */
+.auth-prompt-section {
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+}
+
+.auth-header {
+  margin-bottom: 40px;
+  animation: fadeInUp 0.6s ease;
+}
+
+.auth-icon {
+  color: var(--accent-primary);
+  margin-bottom: 20px;
+}
+
+.auth-header h1 {
+  font-size: 40px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 12px;
+}
+
+.auth-subtitle {
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
+/* Auth Buttons */
+.auth-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: fadeInUp 0.6s ease 0.2s both;
+}
+
+.auth-btn {
+  padding: 16px 32px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.signup-btn {
+  background: var(--accent-primary);
+  color: white;
+}
+
+.signup-btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--shadow-hover);
+}
+
+.login-btn {
+  background: transparent;
+  color: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+.login-btn:hover {
+  background: var(--accent-primary);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--shadow-hover);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .icon-page {
+    padding: 32px 16px;
+  }
+
+  .welcome-header h1 {
+    font-size: 28px;
+  }
+
+  .user-subtitle,
+  .auth-subtitle {
+    font-size: 14px;
+  }
+
+  .action-cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .action-card {
+    padding: 24px 20px;
+  }
+
+  .action-card h3 {
+    font-size: 18px;
+  }
+
+  .auth-header h1 {
+    font-size: 32px;
+  }
+
+  .auth-btn {
+    padding: 14px 28px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-header h1 {
+    font-size: 24px;
+  }
+
+  .auth-header h1 {
+    font-size: 28px;
+  }
+
+  .user-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .auth-icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .action-card svg {
+    width: 28px;
+    height: 28px;
+  }
 }

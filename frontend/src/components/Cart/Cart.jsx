@@ -49,7 +49,6 @@ const Cart = () => {
     <Fragment>
       {cartItems.length === 0 ? (
         <div className="emptyCart">
-
           <p>No Product in Your Cart</p>
           <Link to="/products">View Products</Link>
         </div>
@@ -71,6 +70,7 @@ const Cart = () => {
                       onClick={() =>
                         decreaseQuantity(item.product, item.quantity)
                       }
+                      aria-label="Decrease quantity"
                     >
                       -
                     </button>
@@ -83,6 +83,7 @@ const Cart = () => {
                           item.stock
                         )
                       }
+                      aria-label="Increase quantity"
                     >
                       +
                     </button>

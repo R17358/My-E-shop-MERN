@@ -1,67 +1,500 @@
-.productListContainer {
-  width: 100%;
-  box-sizing: border-box;
-  background-color: rgb(255, 255, 255);
-  border-left: 1px solid rgba(0, 0, 0, 0.158);
+/* Theme Variables */
+:root[data-theme="light"] {
+  --bg-primary: #f5f7fa;
+  --bg-secondary: #ffffff;
+  --card-bg: #ffffff;
+  --text-primary: #1a1d29;
+  --text-secondary: #6b7280;
+  --accent-primary: #7c3aed;
+  --accent-secondary: #ec4899;
+  --accent-hover: #6d28d9;
+  --shadow-sm: rgba(0, 0, 0, 0.08);
+  --shadow-hover: rgba(124, 58, 237, 0.25);
+  --border-color: #e5e7eb;
+  --table-header: #7c3aed;
+  --table-hover: #f3f4f6;
+  --edit-btn: #10b981;
+  --delete-btn: #ef4444;
+  --focus-ring: rgba(124, 58, 237, 0.2);
+}
+
+:root[data-theme="dark"] {
+  --bg-primary: #0f0f0f;
+  --bg-secondary: #1a1a1a;
+  --card-bg: #1e1e1e;
+  --text-primary: #e5e7eb;
+  --text-secondary: #9ca3af;
+  --accent-primary: #a855f7;
+  --accent-secondary: #f472b6;
+  --accent-hover: #c084fc;
+  --shadow-sm: rgba(0, 0, 0, 0.3);
+  --shadow-hover: rgba(168, 85, 247, 0.3);
+  --border-color: #2d2d2d;
+  --table-header: #a855f7;
+  --table-hover: #2a2a2a;
+  --edit-btn: #22c55e;
+  --delete-btn: #f87171;
+  --focus-ring: rgba(168, 85, 247, 0.25);
+}
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+  position: fixed;
+  top: 100px;
+  right: 24px;
+  z-index: 99;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 2px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--accent-primary);
+  box-shadow: 0 4px 12px var(--shadow-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-toggle-btn:hover {
+  transform: scale(1.08) rotate(12deg);
+  box-shadow: 0 6px 20px var(--shadow-hover);
+  border-color: var(--accent-primary);
+}
+
+/* Wrapper */
+.order-list-wrapper {
+  min-height: 100vh;
+  background: var(--bg-primary);
+  padding: 20px 24px 60px;
+  animation: fadeIn 0.6s ease;
+  transition: background-color 0.3s ease;
+}
+
+/* Hero Section */
+.order-list-hero {
+  text-align: center;
+  margin-bottom: 48px;
+  padding: 32px 20px;
+  animation: fadeInUp 0.6s ease;
+}
+
+.hero-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  color: white;
+  margin-bottom: 20px;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+.hero-title {
+  font-size: 42px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 12px;
+  letter-spacing: -1px;
+  line-height: 1.2;
+}
+
+.hero-subtitle {
+  font-size: 16px;
+  color: var(--text-secondary);
+  font-weight: 400;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Order List Container */
+.order-list-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 8px 24px var(--shadow-sm);
+  animation: slideUp 0.6s ease;
+  transition: all 0.3s ease;
+}
+
+/* DataGrid Styling */
+.order-list-table {
+  background-color: transparent !important;
+  border: none !important;
+  color: var(--text-primary) !important;
+}
+
+.order-list-table .MuiDataGrid-root {
+  border: none !important;
+}
+
+.order-list-table .MuiDataGrid-cell {
+  color: var(--text-primary) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  font-size: 14px !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif !important;
+}
+
+.order-list-table .MuiDataGrid-row:hover {
+  background-color: var(--table-hover) !important;
+  transition: background-color 0.2s ease;
+}
+
+.order-list-table .MuiDataGrid-columnHeaders {
+  background: var(--table-header) !important;
+  border-radius: 12px 12px 0 0 !important;
+  border: none !important;
+}
+
+.order-list-table .MuiDataGrid-columnHeader {
+  background-color: transparent !important;
+  color: white !important;
+}
+
+.order-list-table .MuiDataGrid-columnHeaderTitle {
+  color: white !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+}
+
+.order-list-table .MuiDataGrid-iconSeparator {
+  display: none !important;
+}
+
+.order-list-table .MuiDataGrid-footerContainer {
+  border-top: 1px solid var(--border-color) !important;
+  background: var(--bg-secondary) !important;
+  border-radius: 0 0 12px 12px !important;
+}
+
+.order-list-table .MuiTablePagination-root {
+  color: var(--text-primary) !important;
+}
+
+.order-list-table .MuiIconButton-root {
+  color: var(--text-primary) !important;
+}
+
+/* Status Colors */
+.greenColor {
+  color: #10b981 !important;
+  font-weight: 600 !important;
+}
+
+.redColor {
+  color: #ef4444 !important;
+  font-weight: 600 !important;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.edit-btn,
+.delete-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px var(--shadow-sm);
+}
+
+.edit-btn {
+  background: var(--edit-btn);
+  color: white;
+}
+
+.edit-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.delete-btn {
+  background: var(--delete-btn);
+  color: white;
+}
+
+.delete-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.edit-btn:active,
+.delete-btn:active {
+  transform: translateY(0) scale(0.95);
+}
+
+/* No Orders State */
+.no-orders-state {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-}
-
-#productListHeading {
-  font: 400 2rem "Roboto";
-  padding: 0.5vmax;
-  box-sizing: border-box;
-  color: rgba(0, 0, 0, 0.637);
-  transition: all 0.5s;
-  margin: 2rem;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
   text-align: center;
+  padding: 80px 20px;
+  animation: fadeInUp 0.6s ease;
 }
 
-.productListTable {
-  background-color: white;
-  border: none !important;
+.no-orders-state svg {
+  color: var(--accent-primary);
+  opacity: 0.4;
+  margin-bottom: 24px;
 }
 
-.productListTable div {
-  font: 300 1vmax "Roboto";
-  color: rgba(0, 0, 0, 0.678);
-  border: none !important;
+.no-orders-state h3 {
+  font-size: 28px;
+  color: var(--text-primary);
+  margin: 0 0 12px 0;
+  font-weight: 700;
 }
 
-.productListTable a,
-.productListTable button {
-  color: rgba(0, 0, 0, 0.527);
-  transition: all 0.5s;
+.no-orders-state p {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin: 0;
+  max-width: 400px;
 }
 
-.productListTable a:hover {
-  color: tomato;
-}
-
-.productListTable button:hover {
-  color: rgb(236, 30, 30);
-}
-
-.MuiDataGrid-columnHeader div {
-  color: rgb(255, 255, 255);
-}
-
-@media screen and (max-width: 600px) {
-  .productListTable div {
-    font: 300 4vw "Roboto";
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
-.orderbtn{
-  border-radius: 15px;
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.orderbtn #edit{
-  background-color: #112610;
-  margin: 9px;
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.orderbtn #delete{
-  background-color: #14b0e2;
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .order-list-wrapper {
+    padding: 16px 20px 48px;
+  }
+
+  .hero-title {
+    font-size: 36px;
+  }
+
+  .hero-subtitle {
+    font-size: 15px;
+  }
+
+  .order-list-container {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .order-list-wrapper {
+    padding: 16px 16px 40px;
+  }
+
+  .order-list-hero {
+    margin-bottom: 32px;
+    padding: 24px 16px;
+  }
+
+  .hero-icon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+  }
+
+  .hero-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .hero-title {
+    font-size: 32px;
+  }
+
+  .hero-subtitle {
+    font-size: 14px;
+  }
+
+  .order-list-container {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .theme-toggle-btn {
+    top: 80px;
+    right: 16px;
+    width: 42px;
+    height: 42px;
+  }
+
+  .order-list-table .MuiDataGrid-cell {
+    font-size: 13px !important;
+  }
+
+  .order-list-table .MuiDataGrid-columnHeaderTitle {
+    font-size: 14px !important;
+  }
+
+  .edit-btn,
+  .delete-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .edit-btn svg,
+  .delete-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  .order-list-wrapper {
+    padding: 12px 12px 32px;
+  }
+
+  .order-list-hero {
+    margin-bottom: 24px;
+    padding: 20px 12px;
+  }
+
+  .hero-icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .hero-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .hero-title {
+    font-size: 28px;
+  }
+
+  .hero-subtitle {
+    font-size: 13px;
+  }
+
+  .order-list-container {
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .theme-toggle-btn {
+    top: 70px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .order-list-table .MuiDataGrid-cell {
+    font-size: 12px !important;
+    padding: 8px !important;
+  }
+
+  .order-list-table .MuiDataGrid-columnHeaderTitle {
+    font-size: 13px !important;
+  }
+
+  .action-buttons {
+    gap: 6px;
+  }
+
+  .edit-btn,
+  .delete-btn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .edit-btn svg,
+  .delete-btn svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .no-orders-state {
+    padding: 60px 16px;
+  }
+
+  .no-orders-state svg {
+    width: 48px;
+    height: 48px;
+  }
+
+  .no-orders-state h3 {
+    font-size: 24px;
+  }
+
+  .no-orders-state p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 24px;
+  }
+
+  .order-list-table .MuiDataGrid-cell {
+    font-size: 11px !important;
+  }
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus Styles */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
 }

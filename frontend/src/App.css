@@ -1,0 +1,147 @@
+/* CSS Variables - Light Theme */
+:root[data-theme="light"] {
+  --bg-primary: #f5f7fa;
+  --bg-secondary: #ffffff;
+  --card-bg: #ffffff;
+  --text-primary: #1a1d29;
+  --text-secondary: #6b7280;
+  --accent-primary: #7c3aed;
+  --accent-secondary: #ec4899;
+  --accent-hover: #6d28d9;
+  --shadow-sm: rgba(0, 0, 0, 0.08);
+  --shadow-hover: rgba(124, 58, 237, 0.25);
+  --border-color: #e5e7eb;
+  --image-bg: #f3f4f6;
+  --header-bg: rgba(255, 255, 255, 0.95);
+  --footer-bg: #ffffff;
+  --nav-btn-bg: rgba(124, 58, 237, 0.1);
+  --icon-btn-bg: #ffffff;
+  --input-bg: #ffffff;
+  --button-bg: #f9fafb;
+  --button-hover: #8b5cf6;
+  --social-btn-bg: rgba(124, 58, 237, 0.08);
+  --focus-ring: rgba(124, 58, 237, 0.2);
+}
+
+/* CSS Variables - Dark Theme */
+:root[data-theme="dark"] {
+  --bg-primary: #0f0f0f;
+  --bg-secondary: #1a1a1a;
+  --card-bg: #1e1e1e;
+  --text-primary: #e5e7eb;
+  --text-secondary: #9ca3af;
+  --accent-primary: #a855f7;
+  --accent-secondary: #f472b6;
+  --accent-hover: #c084fc;
+  --shadow-sm: rgba(0, 0, 0, 0.3);
+  --shadow-hover: rgba(168, 85, 247, 0.3);
+  --border-color: #2d2d2d;
+  --image-bg: #2a2a2a;
+  --header-bg: rgba(26, 26, 26, 0.95);
+  --footer-bg: #1a1a1a;
+  --nav-btn-bg: rgba(168, 85, 247, 0.15);
+  --icon-btn-bg: #2a2a2a;
+  --input-bg: #2a2a2a;
+  --button-bg: #374151;
+  --button-hover: #8b5cf6;
+  --social-btn-bg: rgba(168, 85, 247, 0.12);
+  --focus-ring: rgba(168, 85, 247, 0.25);
+}
+
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Theme Toggle Button - Global */
+.theme-toggle-btn {
+  position: fixed;
+  top: 100px;
+  right: 24px;
+  z-index: 99;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 2px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--accent-primary);
+  box-shadow: 0 4px 12px var(--shadow-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-toggle-btn:hover {
+  transform: scale(1.08) rotate(12deg);
+  box-shadow: 0 6px 20px var(--shadow-hover);
+  border-color: var(--accent-primary);
+}
+
+.theme-toggle-btn:active {
+  transform: scale(0.95);
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus Styles for Accessibility */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Responsive Theme Button */
+@media (max-width: 1024px) {
+  .theme-toggle-btn {
+    width: 44px;
+    height: 44px;
+    right: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .theme-toggle-btn {
+    top: 80px;
+    right: 16px;
+    width: 42px;
+    height: 42px;
+  }
+}
+
+@media (max-width: 480px) {
+  .theme-toggle-btn {
+    top: 70px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+  }
+}

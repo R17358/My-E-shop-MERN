@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import "./myOrders.css";
 import { DataGrid } from "@material-ui/data-grid";
 import { useSelector, useDispatch } from "react-redux";
@@ -6,16 +6,26 @@ import { clearErrors, myOrders } from "../../actions/orderAction";
 import { Link } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import { toast } from "react-toastify";
+import { Sun, Moon, Package } from 'lucide-react';
 
 const MyOrders = () => {
   const dispatch = useDispatch();
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
 
   const { loading, error, orders } = useSelector((state) => state.myOrders);
   const { user } = useSelector((state) => state.user);
 
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+  };
+
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 300, flex: 1 },
-
     {
       field: "status",
       headerName: "Status",
@@ -34,7 +44,6 @@ const MyOrders = () => {
       minWidth: 150,
       flex: 0.3,
     },
-
     {
       field: "amount",
       headerName: "Amount",
@@ -42,7 +51,6 @@ const MyOrders = () => {
       minWidth: 270,
       flex: 0.5,
     },
-
     {
       field: "actions",
       flex: 0.3,
@@ -53,12 +61,13 @@ const MyOrders = () => {
       renderCell: (params) => {
         return (
           <Link to={`/order/${params.getValue(params.id, "id")}`}>
-            <button>Launch</button>
+            <button className="order-action-btn">View</button>
           </Link>
         );
       },
     },
   ];
+
   const rows = [];
 
   orders &&
@@ -82,21 +91,38 @@ const MyOrders = () => {
 
   return (
     <Fragment>
+      <div className="my-orders-wrapper">
+        <button className="theme-toggle-btn" onClick={toggleTheme} aria-label="Toggle theme">
+          {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+        </button>
 
-      {(
-        <div className="myOrdersPage">
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={10}
-            disableSelectionOnClick
-            className="myOrdersTable"
-            autoHeight
-          />
-
-          <Typography id="myOrdersHeading">{user.name}'s Orders</Typography>
+        <div className="my-orders-hero">
+          <div className="hero-icon">
+            <Package size={48} />
+          </div>
+          <h1 className="hero-title">{user?.name}'s Orders</h1>
+          <p className="hero-subtitle">Track and manage all your orders in one place</p>
         </div>
-      )}
+
+        {orders && orders.length > 0 ? (
+          <div className="my-orders-container">
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              pageSize={10}
+              disableSelectionOnClick
+              className="my-orders-table"
+              autoHeight
+            />
+          </div>
+        ) : (
+          <div className="no-orders-state">
+            <Package size={64} />
+            <h3>No Orders Yet</h3>
+            <p>Your order history will appear here once you make your first purchase</p>
+          </div>
+        )}
+      </div>
     </Fragment>
   );
 };
