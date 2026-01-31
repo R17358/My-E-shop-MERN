@@ -80,8 +80,8 @@ body {
 /* Theme Toggle Button - Global */
 .theme-toggle-btn {
   position: fixed;
-  top: 100px;
-  right: 24px;
+  top: 10%;
+  right: 20%;
   z-index: 500;
   width: 46px;
   height: 46px;
