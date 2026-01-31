@@ -1,9 +1,9 @@
 import React from 'react'
 import './product.css'
-import chair from '../../pages/chair.webp'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { addItemsToCart } from '../../actions/cartAction'
+import { ShoppingCart } from 'lucide-react'
 
 function Product({product}) {
 
@@ -23,19 +23,36 @@ function Product({product}) {
   };
 
   return (
-    <div>
-        <div className="card">
-        <Link to={`/product/${product._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-            <div className="productHead">
-              <h2>{product.name}</h2>
-            </div>
-            <img src={product.images[0].url} alt={product.name}/>
-            <p className='desc'><b>Description:</b>{product.description}</p>
-            <h4>{product.price} /-</h4>
-            </Link>
-            <button type="button" onClick={addToCartHandler}>ADD TO CART</button>
+    <div className="product-card">
+      <Link to={`/product/${product._id}`} className="product-link">
+        <div className="product-image-container">
+          <img src={product.images[0].url} alt={product.name} className="product-img"/>
+          <div className="product-overlay">
+            <span className="view-text">View Details</span>
+          </div>
         </div>
         
+        <div className="product-info">
+          <h3 className="product-name">{product.name}</h3>
+          <p className="product-desc">{product.description}</p>
+          <div className="product-footer-row">
+            <div className="product-price-container">
+              <span className="currency">₹</span>
+              <span className="amount">{product.price}</span>
+            </div>
+            {qty > 0 && <span className="cart-badge">{qty}</span>}
+          </div>
+        </div>
+      </Link>
+      
+      <button 
+        type="button" 
+        className="cart-btn" 
+        onClick={addToCartHandler}
+      >
+        <ShoppingCart size={16} strokeWidth={2.5} />
+        <span>ADD TO CART</span>
+      </button>
     </div>
   )
 }

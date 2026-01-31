@@ -1,47 +1,68 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Search, ShoppingCart, User, Menu, X } from 'lucide-react';
 import "./Header.css";
 
 function Header() {
-  const [keyword, setKeyword] = useState(""); // State for search input
-  const navigate = useNavigate(); // useNavigate replaces history.push in React Router v6
+  const [keyword, setKeyword] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const searchSubmitHandler = (e) => {
     e.preventDefault();
-    setKeyword(e.target.value)
     if (keyword.trim()) {
       navigate(`/products/${keyword}`);
-    } else{
+    } else {
       navigate(`/products`);
     }
+    setMenuOpen(false);
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
   };
 
   return (
-    <div className="header">
-      <div className="nm">My E-Shop</div>
-      <div className="left">
-        <Link to="/">Home</Link>
-        <Link to="/products">Products</Link>
-        <Link to="/about">About Us</Link>
-        <Link to="/contact">Contact Us</Link>
+    <header className="header">
+      <div className="header-container">
+        <div className="header-logo">
+          <Link to="/">My E-Shop</Link>
+        </div>
+
+        <button className="mobile-menu-toggle" onClick={toggleMenu}>
+          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+
+        <nav className={`header-nav ${menuOpen ? 'active' : ''}`}>
+          <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
+          <Link to="/products" onClick={() => setMenuOpen(false)}>Products</Link>
+          <Link to="/about" onClick={() => setMenuOpen(false)}>About Us</Link>
+          <Link to="/contact" onClick={() => setMenuOpen(false)}>Contact Us</Link>
+        </nav>
+
+        <div className={`header-actions ${menuOpen ? 'active' : ''}`}>
+          <form className="search-form" onSubmit={searchSubmitHandler}>
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+            />
+            <button type="submit" className="search-btn">
+              <Search size={18} />
+            </button>
+          </form>
+
+          <Link to="/cart" className="icon-btn" onClick={() => setMenuOpen(false)}>
+            <ShoppingCart size={20} />
+          </Link>
+
+          <Link to="/icon" className="icon-btn" onClick={() => setMenuOpen(false)}>
+            <User size={20} />
+          </Link>
+        </div>
       </div>
-      <div className="right">
-        <form onSubmit={searchSubmitHandler}> {/* Wrap input in form to submit on Enter */}
-          <input
-            type="text"
-            name="search"
-            id="search"
-            placeholder="Search for Products...."
-            value={keyword}
-            onChange={(e) => searchSubmitHandler(e)} // Update keyword on input change
-          />
-          <Link to="/cart"><button></button></Link>
-        </form>
-        <Link to="/icon">   {/* Link for profile icon or login/logout */}
-          <div className="profile"></div>
-        </Link>
-      </div>
-    </div>
+    </header>
   );
 }
 
