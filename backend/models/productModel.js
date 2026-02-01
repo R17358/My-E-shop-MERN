@@ -39,6 +39,79 @@ const productSchema = mongoose.Schema({
     maxLength: [4, "Stock cannot exceed 4 characters"],
     default: 1,
   },
+  
+  // NEW FIELDS FOR MULTI-VENDOR
+  seller: {
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  
+  // Platform commission percentage (you can set platform-wide or per product)
+  platformCommissionPercent: {
+    type: Number,
+    default: 10, // 10% platform commission
+    min: 0,
+    max: 100,
+  },
+  
+  // Shipping charges (can be per product or calculated later)
+  shippingCharges: {
+    type: Number,
+    default: 50, // ₹50 default shipping per product
+  },
+  
+  // GST percentage
+  gstPercent: {
+    type: Number,
+    default: 18, // 18% GST
+    min: 0,
+    max: 100,
+  },
+  
+  numOfReviews: {
+    type: Number,
+    default: 0,
+  },
+  reviews: [
+    {
+      user: {
+        type: mongoose.Schema.ObjectId,
+        ref: "User",
+        required: true,
+      },
+      name: {
+        type: String,
+        required: true,
+      },
+      rating: {
+        type: Number,
+        required: true,
+      },
+      comment: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
+  
+  // Keep user for backward compatibility (admin who approved)
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
+  },
+  
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+module.exports = mongoose.model("Product", productSchema);    type: Number,
+    required: [true, "Please Enter product Stock"],
+    maxLength: [4, "Stock cannot exceed 4 characters"],
+    default: 1,
+  },
   numOfReviews: {
     type: Number,
     default: 0,
