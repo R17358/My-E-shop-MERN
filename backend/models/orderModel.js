@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// This is the MAIN order placed by customer (parent order)
 const orderSchema = new mongoose.Schema({
   shippingInfo: {
     address: {
@@ -10,12 +11,10 @@ const orderSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
-
     state: {
       type: String,
       required: true,
     },
-
     country: {
       type: String,
       required: true,
@@ -29,6 +28,7 @@ const orderSchema = new mongoose.Schema({
       required: true,
     },
   },
+  
   orderItems: [
     {
       name: {
@@ -51,13 +51,20 @@ const orderSchema = new mongoose.Schema({
         ref: "Product",
         required: true,
       },
+      seller: {
+        type: mongoose.Schema.ObjectId,
+        ref: "User",
+        required: true,
+      },
     },
   ],
+  
   user: {
     type: mongoose.Schema.ObjectId,
     ref: "User",
     required: true,
   },
+  
   paymentInfo: {
     id: {
       type: String,
@@ -68,10 +75,13 @@ const orderSchema = new mongoose.Schema({
       required: true,
     },
   },
+  
   paidAt: {
     type: Date,
     required: true,
   },
+  
+  // Total amounts paid by customer
   itemsPrice: {
     type: Number,
     required: true,
@@ -92,12 +102,16 @@ const orderSchema = new mongoose.Schema({
     required: true,
     default: 0,
   },
+  
+  // Overall order status
   orderStatus: {
     type: String,
     required: true,
     default: "Processing",
   },
+  
   deliveredAt: Date,
+  
   createdAt: {
     type: Date,
     default: Date.now,
