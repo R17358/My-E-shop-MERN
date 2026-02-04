@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './SellerDashboard.css';
+import './Sellerdashboard.css';
 import { useSelector } from 'react-redux';
 import { Sun, Moon, Package, LayoutDashboard, ShoppingBag, PlusCircle, TrendingUp, DollarSign } from 'lucide-react';
 

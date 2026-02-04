@@ -4,12 +4,12 @@ const app = express();
 // ==============================
 // Force HTTPS Redirect (for Render)
 // ==============================
-app.use((req, res, next) => {
-  if (req.headers["x-forwarded-proto"] !== "https") {
-    return res.redirect("https://" + req.headers.host + req.url);
-  }
-  next();
-});
+// app.use((req, res, next) => {
+//   if (req.headers["x-forwarded-proto"] !== "https") {
+//     return res.redirect("https://" + req.headers.host + req.url);
+//   }
+//   next();
+// });
 
 // ==============================
 // External Packages & Middlewares

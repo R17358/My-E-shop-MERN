@@ -15,6 +15,7 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
     paymentInfo,
   } = req.body;
 
+
   // Step 1: Calculate prices and group by seller
   const sellerGroups = {};
   let totalItemsPrice = 0;

@@ -49,7 +49,10 @@ export const getProduct =
 
       // let link = `/products?keyword=${keyword}`
 
+
       const { data } = await axios.get(link);
+
+      console.log(data)
 
       dispatch({
         type: ALL_PRODUCT_SUCCESS,

@@ -1,11 +1,11 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { DataGrid } from "@material-ui/data-grid";
-import "./SellerOrders.css";
+import "./Sellerorders.css";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Sun, Moon, Eye, ShoppingBag, DollarSign, TrendingUp } from 'lucide-react';
-import axios from "axios";
+import axios from "../../api/axios";
 
 const SellerOrders = () => {
   const dispatch = useDispatch();
@@ -40,7 +40,7 @@ const SellerOrders = () => {
           withCredentials: true,
         };
         
-        const { data } = await axios.get("/api/seller/orders", config);
+        const { data } = await axios.get("/seller/orders", config);
         
         setSubOrders(data.subOrders || []);
         setStats({

@@ -23,44 +23,44 @@ router.route("/orders/me").get(isAuthenticatedUser, myOrders);
 // Seller routes
 router.route("/seller/orders").get(
   isAuthenticatedUser,
-  authorizeRoles("seller"),
+  authorizeRoles("seller", "admin"),
   getSellerOrders
 );
 
 router.route("/seller/order/:id").get(
   isAuthenticatedUser,
-  authorizeRoles("seller"),
+  authorizeRoles("seller", "admin"),
   getSellerSubOrder
 );
 
 router.route("/seller/order/:id").put(
   isAuthenticatedUser,
-  authorizeRoles("seller"),
+  authorizeRoles("seller", "admin"),
   updateSellerSubOrder
 );
 
 // Admin routes
 router.route("/admin/orders").get(
   isAuthenticatedUser,
-  authorizeRoles("admin"),
+  authorizeRoles("admin", "seller"),
   getAllOrders
 );
 
 router.route("/admin/suborders").get(
   isAuthenticatedUser,
-  authorizeRoles("admin"),
+  authorizeRoles("admin", "seller"),
   getAllSubOrders
 );
 
 router.route("/admin/order/:id").delete(
   isAuthenticatedUser,
-  authorizeRoles("admin"),
+  authorizeRoles("admin", "seller"),
   deleteOrder
 );
 
 router.route("/admin/suborder/:id/pay").put(
   isAuthenticatedUser,
-  authorizeRoles("admin"),
+  authorizeRoles("admin", "seller"),
   processSellerPayment
 );
 

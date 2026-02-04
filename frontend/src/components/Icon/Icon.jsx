@@ -88,33 +88,4 @@ function Icon() {
   )
 }
 
-export default Icon                  </Link>
-                  <Link to="/logout" className="action-card logout-card">
-                    <LogOut size={32} />
-                    <h3>Log Out</h3>
-                    <p>Sign out of your account</p>
-                  </Link>
-                </div>
-            </div>
-        ) : (
-            <div className="auth-prompt-section">
-                <div className="auth-header">
-                  <User size={64} strokeWidth={1.5} className="auth-icon" />
-                  <h1>Welcome!</h1>
-                  <p className="auth-subtitle">Sign in to access your account</p>
-                </div>
-                <div className="auth-buttons">
-                  <Link to="/register" className="auth-btn signup-btn">
-                    <span>Create Account</span>
-                  </Link>
-                  <Link to="/login" className="auth-btn login-btn">
-                    <span>Sign In</span>
-                  </Link>
-                </div>
-            </div>
-        )}
-    </div>
-  )
-}
-
-export default Icon
+export default Icon              

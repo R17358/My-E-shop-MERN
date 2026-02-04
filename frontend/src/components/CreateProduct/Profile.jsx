@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createProduct } from '../../actions/productAction';
 import './Profile.css';
 import { useNavigate } from 'react-router-dom';
-import { Package, DollarSign, FileText, Tag, Upload, Plus } from 'lucide-react';
+import { Package, DollarSign, FileText, Tag, Upload, Plus, TrendingUp, Truck, Sun, Moon } from 'lucide-react';
 import { toast } from 'react-toastify';
 
 function Profile() {
     const { isAuthenticated, user } = useSelector((state) => state.user);
     const navigate = useNavigate();
+    const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
 
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -17,8 +18,22 @@ function Profile() {
     const [stock, setStock] = useState('');
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
+    
+    // New fields for multi-vendor
+    const [platformCommissionPercent, setPlatformCommissionPercent] = useState('10');
+    const [shippingCharges, setShippingCharges] = useState('50');
+    const [gstPercent, setGstPercent] = useState('18');
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+    }, [theme]);
+
+    const toggleTheme = () => {
+        setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+    };
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -43,8 +58,14 @@ function Profile() {
         formData.append('price', price);
         formData.append('category', category);
         formData.append('stock', stock);
-        formData.append('user', user.user_id);
+        formData.append('seller', user.user_id); // Set seller field
+        formData.append('user', user.user_id); // Keep for backward compatibility
         formData.append('image', image);
+        
+        // Add new multi-vendor fields
+        formData.append('platformCommissionPercent', platformCommissionPercent);
+        formData.append('shippingCharges', shippingCharges);
+        formData.append('gstPercent', gstPercent);
 
         dispatch(createProduct(formData)).then(() => {
             setName('');
@@ -54,15 +75,50 @@ function Profile() {
             setStock('');
             setImage(null);
             setImagePreview(null);
+            setPlatformCommissionPercent('10');
+            setShippingCharges('50');
+            setGstPercent('18');
+            
             toast.success('Product created successfully!');
-            if (isAuthenticated) {
+            
+            // Navigate based on user role
+            if (user.role === 'seller') {
+                navigate('/seller/dashboard');
+            } else if (user.role === 'admin') {
                 navigate('/admin');
+            } else {
+                navigate('/dashboard');
             }
         });
     };
 
+    // Calculate estimated earnings
+    const calculateEarnings = () => {
+        if (!price) return { total: 0, commission: 0, earnings: 0 };
+        
+        const itemPrice = parseFloat(price) || 0;
+        const shipping = parseFloat(shippingCharges) || 0;
+        const commission = (itemPrice * (parseFloat(platformCommissionPercent) || 0)) / 100;
+        const gst = ((itemPrice + shipping) * (parseFloat(gstPercent) || 0)) / 100;
+        const total = itemPrice + shipping + gst;
+        const earnings = total - commission;
+        
+        return {
+            total: total.toFixed(2),
+            commission: commission.toFixed(2),
+            earnings: earnings.toFixed(2),
+            gst: gst.toFixed(2)
+        };
+    };
+
+    const earnings = calculateEarnings();
+
     return (
         <div className="create-product-container">
+            <button className="theme-toggle-btn" onClick={toggleTheme} aria-label="Toggle theme">
+                {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+            </button>
+
             <div className="create-product-card">
                 <div className="create-product-header">
                     <Plus size={32} className="header-icon" />
@@ -71,6 +127,7 @@ function Profile() {
                 </div>
 
                 <form className="create-product-form" onSubmit={handleSubmit}>
+                    {/* Basic Product Info */}
                     <div className="form-group">
                         <label htmlFor="name">
                             <Package size={16} />
@@ -151,6 +208,101 @@ function Profile() {
                         />
                     </div>
 
+                    {/* New Multi-Vendor Fields */}
+                    <div className="pricing-section">
+                        <h3 className="section-title">
+                            <TrendingUp size={18} />
+                            Pricing Details
+                        </h3>
+                        
+                        <div className="form-row">
+                            <div className="form-group">
+                                <label htmlFor="shippingCharges">
+                                    <Truck size={16} />
+                                    Shipping Charges (₹)
+                                </label>
+                                <input
+                                    id="shippingCharges"
+                                    type="number"
+                                    value={shippingCharges}
+                                    onChange={(e) => setShippingCharges(e.target.value)}
+                                    placeholder="50"
+                                    min="0"
+                                    step="0.01"
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="gstPercent">
+                                    <FileText size={16} />
+                                    GST (%)
+                                </label>
+                                <input
+                                    id="gstPercent"
+                                    type="number"
+                                    value={gstPercent}
+                                    onChange={(e) => setGstPercent(e.target.value)}
+                                    placeholder="18"
+                                    min="0"
+                                    max="100"
+                                    step="0.01"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="platformCommissionPercent">
+                                <TrendingUp size={16} />
+                                Platform Commission (%)
+                            </label>
+                            <input
+                                id="platformCommissionPercent"
+                                type="number"
+                                value={platformCommissionPercent}
+                                onChange={(e) => setPlatformCommissionPercent(e.target.value)}
+                                placeholder="10"
+                                min="0"
+                                max="100"
+                                step="0.01"
+                            />
+                            <span className="help-text">Platform takes {platformCommissionPercent}% commission on product price</span>
+                        </div>
+                    </div>
+
+                    {/* Earnings Preview */}
+                    {price && (
+                        <div className="earnings-preview">
+                            <h4>Estimated Breakdown (per unit)</h4>
+                            <div className="earnings-grid">
+                                <div className="earning-item">
+                                    <span className="earning-label">Product Price:</span>
+                                    <span className="earning-value">₹{parseFloat(price || 0).toFixed(2)}</span>
+                                </div>
+                                <div className="earning-item">
+                                    <span className="earning-label">Shipping:</span>
+                                    <span className="earning-value">₹{parseFloat(shippingCharges || 0).toFixed(2)}</span>
+                                </div>
+                                <div className="earning-item">
+                                    <span className="earning-label">GST ({gstPercent}%):</span>
+                                    <span className="earning-value">₹{earnings.gst}</span>
+                                </div>
+                                <div className="earning-item total">
+                                    <span className="earning-label">Customer Pays:</span>
+                                    <span className="earning-value">₹{earnings.total}</span>
+                                </div>
+                                <div className="earning-item commission">
+                                    <span className="earning-label">Platform Commission:</span>
+                                    <span className="earning-value">-₹{earnings.commission}</span>
+                                </div>
+                                <div className="earning-item seller">
+                                    <span className="earning-label">You Earn:</span>
+                                    <span className="earning-value">₹{earnings.earnings}</span>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Image Upload */}
                     <div className="form-group">
                         <label htmlFor="image">
                             <Upload size={16} />
