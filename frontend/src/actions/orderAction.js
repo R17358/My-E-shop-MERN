@@ -23,21 +23,6 @@ import {
 import axios from "../api/axios";
 import { toast } from "react-toastify";
 
-
-// axios.interceptors.request.use(
-//   (config) => {
-//     const token = localStorage.getItem("token");
-//     if (token) {
-//       config.headers.Authorization = `Bearer ${token}`;
-//     }
-//     config.headers.withCredentials = true; // Include cookies if used
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
-
 // Create Order
 export const createOrder = (order) => async (dispatch) => {
   try {
@@ -69,11 +54,9 @@ export const myOrders = () => async (dispatch) => {
     const config = {
        headers: {
          Authorization: `Bearer ${localStorage.getItem("token")}`,
-    //     'Content-Type': 'application/json',
-    //     withCredentials: true,
       },
      };
-    const { data } = await axios.get("/orders/me",config);
+    const { data } = await axios.get("/orders/me", config);
 
     dispatch({ type: MY_ORDERS_SUCCESS, payload: data.orders });
   } catch (error) {
@@ -89,16 +72,13 @@ export const getAllOrders = () => async (dispatch) => {
   try {
     dispatch({ type: ALL_ORDERS_REQUEST });
 
-
     const config = {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
-   //     'Content-Type': 'application/json',
-   //     withCredentials: true,
      },
     };
 
-    const { data } = await axios.get("/admin/orders",config);
+    const { data } = await axios.get("/admin/orders", config);
 
     dispatch({ type: ALL_ORDERS_SUCCESS, payload: data.orders });
   } catch (error) {
@@ -109,7 +89,7 @@ export const getAllOrders = () => async (dispatch) => {
   }
 };
 
-// Update Order
+// Update Order (Admin)
 export const updateOrder = (id, order) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_ORDER_REQUEST });
@@ -156,7 +136,7 @@ export const deleteOrder = (id) => async (dispatch) => {
   }
 };
 
-// Get Order Details
+// Get Order Details (Main Order)
 export const getOrderDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: ORDER_DETAILS_REQUEST });
@@ -166,14 +146,89 @@ export const getOrderDetails = (id) => async (dispatch) => {
          Authorization: `Bearer ${localStorage.getItem("token")}`
       },
     };
-    const { data } = await axios.get(`/order/${id}`,config);
+    const { data } = await axios.get(`/order/${id}`, config);
     dispatch({ type: ORDER_DETAILS_SUCCESS, payload: data.order });
-    //console.log(data)
   } catch (error) {
     dispatch({
       type: ORDER_DETAILS_FAIL,
       payload: error.response.data.message,
     });
+  }
+};
+
+// ===== SELLER ACTIONS - NEW =====
+
+// Get Seller's SubOrders
+export const getSellerOrders = () => async (dispatch) => {
+  try {
+    dispatch({ type: ALL_ORDERS_REQUEST });
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    };
+
+    const { data } = await axios.get("/seller/orders", config);
+
+    dispatch({ type: ALL_ORDERS_SUCCESS, payload: data.subOrders });
+  } catch (error) {
+    dispatch({
+      type: ALL_ORDERS_FAIL,
+      payload: error.response?.data?.message || "Failed to fetch seller orders",
+    });
+  }
+};
+
+// Get Single SubOrder Details (Seller)
+export const getSubOrderDetails = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: ORDER_DETAILS_REQUEST });
+    
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      },
+    };
+    
+    const { data } = await axios.get(`/seller/order/${id}`, config);
+    
+    dispatch({ type: ORDER_DETAILS_SUCCESS, payload: data.subOrder });
+  } catch (error) {
+    dispatch({
+      type: ORDER_DETAILS_FAIL,
+      payload: error.response?.data?.message || "Failed to fetch suborder details",
+    });
+  }
+};
+
+// Update SubOrder Status (Seller)
+export const updateSubOrder = (id, orderData) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_ORDER_REQUEST });
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      },
+    };
+    
+    const { data } = await axios.put(
+      `/seller/order/${id}`,
+      orderData,
+      config
+    );
+
+    dispatch({ type: UPDATE_ORDER_SUCCESS, payload: data.success });
+    toast.success("Order Updated Successfully");
+  } catch (error) {
+    dispatch({
+      type: UPDATE_ORDER_FAIL,
+      payload: error.response?.data?.message || "Failed to update order",
+    });
+    toast.error(error.response?.data?.message || "Failed to update order");
   }
 };
 

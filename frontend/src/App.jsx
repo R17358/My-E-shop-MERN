@@ -34,6 +34,7 @@ import UpdateProduct from './components/dashboard/UpdateProduct'
 import { Sun, Moon } from 'lucide-react';
 
 // NEW SELLER COMPONENTS
+import ProcessSubOrder from './components/Admin/ProcessSubOrder'
 import SellerDashboard from './components/Admin/Sellerdashboard'
 import SellerOrders from './components/Admin/Sellerorders'
 
@@ -105,6 +106,7 @@ function App() {
           <Route path="/seller/product/new" element={<Profile/>} /> {/* Reuse existing Profile/CreateProduct */}
           <Route path="/seller/product/:id" element={<UpdateProduct/>} /> {/* Reuse existing UpdateProduct */}
           <Route path="/seller/order/:id" element={<ProcessOrder/>} />
+          <Route path="/seller/suborder/:id" element={<ProcessSubOrder />} />
 
           {/* Legacy Routes (keeping for backward compatibility) */}
           <Route path="/newproduct" element={<Profile/>} />

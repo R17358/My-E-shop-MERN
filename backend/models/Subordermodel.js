@@ -99,7 +99,6 @@ const subOrderSchema = new mongoose.Schema({
   // Payment status for this seller
   paymentStatus: {
     type: String,
-    enum: ["Pending", "Processing", "Completed", "Failed"],
     default: "Pending",
   },
   

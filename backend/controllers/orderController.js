@@ -118,7 +118,7 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
       platformCommission: sellerData.platformCommission,
       sellerEarnings,
       totalPrice: subOrderTotal,
-      paymentStatus: "Pending",
+      paymentStatus: paymentInfo.status || "Pending",
     });
 
     subOrders.push(subOrder);
@@ -224,7 +224,7 @@ exports.getSellerSubOrder = catchAsyncErrors(async (req, res, next) => {
  * Seller can update their own suborder status
  */
 exports.updateSellerSubOrder = catchAsyncErrors(async (req, res, next) => {
-  const subOrder = await SubOrder.findById(req.params.id);
+  const subOrder = await SubOrder.findById(req.params.id).populate('mainOrder');
 
   if (!subOrder) {
     return next(new ErrorHander("Order not found", 404));
@@ -247,7 +247,7 @@ exports.updateSellerSubOrder = catchAsyncErrors(async (req, res, next) => {
     subOrder.shippedAt = Date.now();
   }
 
-  // Update status
+  // Update suborder status
   subOrder.orderStatus = req.body.status;
   
   if (req.body.status === "Delivered") {
@@ -260,6 +260,39 @@ exports.updateSellerSubOrder = catchAsyncErrors(async (req, res, next) => {
   }
 
   await subOrder.save({ validateBeforeSave: false });
+
+  // ====== UPDATE MAIN ORDER STATUS ======
+  // Get all suborders for this main order
+  const allSubOrders = await SubOrder.find({ mainOrder: subOrder.mainOrder._id });
+  
+  // Determine main order status based on all suborders
+  let newMainOrderStatus = "Processing";
+  
+  const allDelivered = allSubOrders.every(sub => sub.orderStatus === "Delivered");
+  const allShipped = allSubOrders.every(sub => sub.orderStatus === "Shipped" || sub.orderStatus === "Delivered");
+  const anyShipped = allSubOrders.some(sub => sub.orderStatus === "Shipped" || sub.orderStatus === "Delivered");
+  
+  if (allDelivered) {
+    newMainOrderStatus = "Delivered";
+  } else if (allShipped) {
+    newMainOrderStatus = "Shipped";
+  } else if (anyShipped) {
+    newMainOrderStatus = "Shipped"; // Partially shipped
+  }
+  
+  // Update main order
+  const mainOrder = await Order.findById(subOrder.mainOrder._id);
+  mainOrder.orderStatus = newMainOrderStatus;
+  
+  if (newMainOrderStatus === "Delivered" && !mainOrder.deliveredAt) {
+    mainOrder.deliveredAt = Date.now();
+  }
+  
+  await mainOrder.save({ validateBeforeSave: false });
+  // ====================================
+
+  
+
 
   res.status(200).json({
     success: true,

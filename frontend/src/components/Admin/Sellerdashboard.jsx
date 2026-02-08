@@ -55,7 +55,7 @@ function SellerDashboard() {
               <div className="card-icon orders">
                 <ShoppingBag size={32} />
               </div>
-              <h3>My Orders</h3>
+              <h3>My Customer's Orders</h3>
               <p>Track and fulfill customer orders</p>
             </Link>
 

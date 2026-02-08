@@ -125,7 +125,7 @@ const SellerOrders = () => {
       sortable: false,
       renderCell: (params) => {
         return (
-          <Link to={`/seller/order/${params.getValue(params.id, "id")}`}>
+          <Link to={`/seller/suborder/${params.getValue(params.id, "id")}`}>
             <button className="view-btn" title="View Details">
               <Eye size={16} />
             </button>
@@ -145,7 +145,7 @@ const SellerOrders = () => {
         items: subOrder.orderItems?.length || 0,
         earnings: `₹${subOrder.sellerEarnings?.toFixed(2) || 0}`,
         commission: `₹${subOrder.platformCommission?.toFixed(2) || 0}`,
-        status: subOrder.orderStatus || "Processing",
+        status: subOrder.orderStatus || "Processing",  // ✅ FIXED: Use subOrder.orderStatus
         payment: subOrder.paymentStatus || "Pending",
       });
     });
@@ -161,7 +161,7 @@ const SellerOrders = () => {
           <div className="hero-icon">
             <ShoppingBag size={48} />
           </div>
-          <h1 className="hero-title">My Orders</h1>
+          <h1 className="hero-title">My Customer's Orders</h1>
           <p className="hero-subtitle">Manage and fulfill your customer orders</p>
         </div>
 
