@@ -41,10 +41,25 @@ function Icon() {
             </p>
           </div>
           <div className="action-cards">
-            {isAdmin() && (
+            {/* {isAdmin() && (
               <Link to="/admin" className="action-card admin-card">
                 <Shield size={32} />
                 <h3>Admin Panel</h3>
+                <p>Manage products and orders</p>
+              </Link>
+            )}
+            {isSeller() && (
+              <Link to="/seller/dashboard" className="action-card seller-card">
+                <Store size={32} />
+                <h3>Seller Dashboard</h3>
+                <p>Manage your products and orders</p>
+              </Link>
+            )} */}
+
+             {isAdmin() && (
+              <Link to="/seller/dashboard" className="action-card admin-card">
+                <Shield size={32} />
+                <h3>Seller Dashboard</h3>
                 <p>Manage products and orders</p>
               </Link>
             )}
