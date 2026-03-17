@@ -11,7 +11,7 @@ const ConfirmOrder = () => {
   const { shippingInfo, cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
 
-  // ── Group items by seller FIRST (needed for per-seller flat shipping) ───────
+  // ── Group items by seller ─────────────────────────────────────────────────
   const itemsBySeller = cartItems.reduce((acc, item) => {
     const sellerKey = item.sellerName || item.seller || "Unknown Seller";
     if (!acc[sellerKey]) acc[sellerKey] = [];
@@ -21,40 +21,51 @@ const ConfirmOrder = () => {
 
   const multiVendor = Object.keys(itemsBySeller).length > 1;
 
-  // ── Calculations ─────────────────────────────────────────────────────────────
+  // ── Per-seller breakdown helper ───────────────────────────────────────────
+  // MUST match backend newOrder exactly:
+  //   shippingPrice = sum of shippingCharges per ITEM (not max per seller)
+  //   taxPrice      = sum of ((itemPrice + itemShipping) * gstPercent/100) per ITEM
+  const getSellerBreakdown = (items) => {
+    let productTotal = 0;
+    let shipping = 0;
+    let tax = 0;
 
-  // Product prices only (no shipping, no tax)
-  const subtotal = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
-  );
+    for (const item of items) {
+      const itemPrice = item.price * item.quantity;
+      const itemShipping = item.shippingCharges ?? 50;
+      const gstRate = (item.gstPercent ?? 18) / 100;
+      const itemTax = (itemPrice + itemShipping) * gstRate;
 
-  // Per SELLER flat shipping — highest charge among seller's products, charged ONCE per seller
-  // Logic: all items from one seller ship in one box → one shipping fee
-  const shippingCharges = Object.values(itemsBySeller).reduce((acc, items) => {
-    const sellerShipping = Math.max(...items.map((i) => i.shippingCharges ?? 50));
-    return acc + sellerShipping;
-  }, 0);
+      productTotal += itemPrice;
+      shipping += itemShipping;       // sum per item — matches backend
+      tax += itemTax;                 // GST per item — matches backend
+    }
 
-  // GST on (product price × quantity + seller's flat shipping) per seller group
-  // Standard Indian GST: applied on product + shipping combined
-  const tax = Object.values(itemsBySeller).reduce((acc, items) => {
-    const sellerProductTotal = items.reduce(
-      (s, item) => s + item.price * item.quantity,
-      0
-    );
-    const sellerShipping = Math.max(...items.map((i) => i.shippingCharges ?? 50));
-    // Use the gstPercent of first item in group (seller-level GST)
-    const gstRate = (items[0].gstPercent ?? 18) / 100;
-    return acc + (sellerProductTotal + sellerShipping) * gstRate;
-  }, 0);
+    const total = productTotal + shipping + tax;
+    return { productTotal, shipping, tax, total };
+  };
+
+  // ── Grand totals (sum across all sellers) ────────────────────────────────
+  let subtotal = 0;
+  let shippingCharges = 0;
+  let tax = 0;
+
+  for (const item of cartItems) {
+    const itemPrice = item.price * item.quantity;
+    const itemShipping = item.shippingCharges ?? 50;
+    const gstRate = (item.gstPercent ?? 18) / 100;
+
+    subtotal += itemPrice;
+    shippingCharges += itemShipping;
+    tax += (itemPrice + itemShipping) * gstRate;
+  }
 
   const totalPrice = subtotal + shippingCharges + tax;
 
-  // ── Address string ────────────────────────────────────────────────────────────
+  // ── Address string ────────────────────────────────────────────────────────
   const address = `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.state}, ${shippingInfo.pinCode}, ${shippingInfo.country}`;
 
-  // ── Proceed to payment ────────────────────────────────────────────────────────
+  // ── Proceed to payment ────────────────────────────────────────────────────
   const proceedToPayment = () => {
     const data = {
       subtotal,
@@ -64,19 +75,6 @@ const ConfirmOrder = () => {
     };
     localStorage.setItem("orderInfo", JSON.stringify(data));
     navigate("/process/payment");
-  };
-
-  // ── Per-seller breakdown helper ───────────────────────────────────────────────
-  const getSellerBreakdown = (items) => {
-    const productTotal = items.reduce(
-      (acc, item) => acc + item.price * item.quantity,
-      0
-    );
-    const shipping = Math.max(...items.map((i) => i.shippingCharges ?? 50));
-    const gstRate = (items[0].gstPercent ?? 18) / 100;
-    const gst = (productTotal + shipping) * gstRate;
-    const total = productTotal + shipping + gst;
-    return { productTotal, shipping, gst, total };
   };
 
   return (
@@ -122,8 +120,7 @@ const ConfirmOrder = () => {
             </div>
 
             {Object.entries(itemsBySeller).map(([sellerName, items]) => {
-              const { productTotal, shipping, gst, total } = getSellerBreakdown(items);
-              const gstPercent = items[0].gstPercent ?? 18;
+              const { productTotal, shipping, tax: sellerTax, total } = getSellerBreakdown(items);
 
               return (
                 <div key={sellerName} className="seller-group">
@@ -134,7 +131,7 @@ const ConfirmOrder = () => {
                     <span>Sold & shipped by <strong>{sellerName}</strong></span>
                     <span className="shipping-note">
                       <Truck size={13} />
-                      1 shipment
+                      {items.length} shipment{items.length > 1 ? "s" : ""}
                     </span>
                   </div>
 
@@ -151,6 +148,10 @@ const ConfirmOrder = () => {
                             {item.quantity} × ₹{item.price} ={" "}
                             <b>₹{(item.price * item.quantity).toFixed(2)}</b>
                           </span>
+                          <span className="item-shipping-note">
+                            + ₹{(item.shippingCharges ?? 50).toFixed(2)} shipping
+                            · {item.gstPercent ?? 18}% GST on (price + shipping)
+                          </span>
                         </div>
                       </div>
                     ))}
@@ -159,16 +160,18 @@ const ConfirmOrder = () => {
                   {/* Per-seller breakdown */}
                   <div className="seller-breakdown">
                     <div className="breakdown-row">
-                      <span>Products ({items.reduce((a, i) => a + i.quantity, 0)} items)</span>
+                      <span>
+                        Products ({items.reduce((a, i) => a + i.quantity, 0)} items)
+                      </span>
                       <span>₹{productTotal.toFixed(2)}</span>
                     </div>
                     <div className="breakdown-row">
-                      <span>Shipping (flat, 1 box)</span>
+                      <span>Shipping (per item)</span>
                       <span>₹{shipping.toFixed(2)}</span>
                     </div>
                     <div className="breakdown-row">
-                      <span>GST ({gstPercent}% on products + shipping)</span>
-                      <span>₹{gst.toFixed(2)}</span>
+                      <span>GST (on price + shipping per item)</span>
+                      <span>₹{sellerTax.toFixed(2)}</span>
                     </div>
                     <div className="breakdown-row seller-total-row">
                       <span>Seller Total</span>
@@ -199,14 +202,11 @@ const ConfirmOrder = () => {
                 <span>₹{subtotal.toFixed(2)}</span>
               </div>
               <div className="summary-row">
-                <span>
-                  Shipping ({Object.keys(itemsBySeller).length} seller
-                  {Object.keys(itemsBySeller).length > 1 ? "s" : ""})
-                </span>
+                <span>Shipping ({cartItems.length} item{cartItems.length > 1 ? "s" : ""})</span>
                 <span>₹{shippingCharges.toFixed(2)}</span>
               </div>
               <div className="summary-row">
-                <span>GST (on products + shipping)</span>
+                <span>GST (on price + shipping per item)</span>
                 <span>₹{tax.toFixed(2)}</span>
               </div>
             </div>
@@ -228,9 +228,11 @@ const ConfirmOrder = () => {
             </button>
           </div>
 
-          {/* Calculation logic note for transparency */}
           <div className="calc-note">
-            <p>💡 Shipping is charged once per seller (flat rate, all items in one box). GST is applied on product price + shipping combined.</p>
+            <p>
+              💡 Shipping is charged per item. GST is applied on
+              (item price + item shipping) for each product individually.
+            </p>
           </div>
         </div>
 

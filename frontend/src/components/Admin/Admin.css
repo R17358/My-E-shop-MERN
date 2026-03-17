@@ -1,39 +1,5 @@
 /* Theme Variables */
-:root[data-theme="light"] {
-  --bg-primary: #f5f7fa;
-  --bg-secondary: #ffffff;
-  --card-bg: #ffffff;
-  --text-primary: #1a1d29;
-  --text-secondary: #6b7280;
-  --accent-primary: #7c3aed;
-  --accent-secondary: #ec4899;
-  --accent-hover: #6d28d9;
-  --shadow-sm: rgba(0, 0, 0, 0.08);
-  --shadow-hover: rgba(124, 58, 237, 0.25);
-  --border-color: #e5e7eb;
-  --create-gradient: linear-gradient(135deg, #10b981, #059669);
-  --dashboard-gradient: linear-gradient(135deg, #3b82f6, #2563eb);
-  --orders-gradient: linear-gradient(135deg, #f59e0b, #d97706);
-  --focus-ring: rgba(124, 58, 237, 0.2);
-}
 
-:root[data-theme="dark"] {
-  --bg-primary: #0f0f0f;
-  --bg-secondary: #1a1a1a;
-  --card-bg: #1e1e1e;
-  --text-primary: #e5e7eb;
-  --text-secondary: #9ca3af;
-  --accent-primary: #a855f7;
-  --accent-secondary: #f472b6;
-  --accent-hover: #c084fc;
-  --shadow-sm: rgba(0, 0, 0, 0.3);
-  --shadow-hover: rgba(168, 85, 247, 0.3);
-  --border-color: #2d2d2d;
-  --create-gradient: linear-gradient(135deg, #22c55e, #16a34a);
-  --dashboard-gradient: linear-gradient(135deg, #60a5fa, #3b82f6);
-  --orders-gradient: linear-gradient(135deg, #fbbf24, #f59e0b);
-  --focus-ring: rgba(168, 85, 247, 0.25);
-}
 
 /* Theme Toggle Button */
 .theme-toggle-btn {

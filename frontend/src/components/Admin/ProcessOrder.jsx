@@ -1,69 +1,78 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Typography } from "@material-ui/core";
 import {
-  getOrderDetails,
-  clearErrors,
-  updateOrder,
+  getOrderDetails, clearErrors, updateOrder,
 } from "../../actions/orderAction";
 import { useSelector, useDispatch } from "react-redux";
 import { UPDATE_ORDER_RESET } from "../../constants/orderConstants";
 import "./processOrder.css";
 import { toast } from "react-toastify";
-import { Sun, Moon, MapPin, CreditCard, Package, CheckCircle, XCircle, Truck } from 'lucide-react';
+import {
+  Sun, Moon, MapPin, CreditCard, Package,
+  CheckCircle, XCircle, Truck, Store
+} from "lucide-react";
 
 const ProcessOrder = () => {
-  const { order, error, loading } = useSelector((state) => state.orderDetails);
+  // ✅ Also pull subOrders
+  const { order, subOrders, error, loading } = useSelector((state) => state.orderDetails);
   const { error: updateError, isUpdated } = useSelector((state) => state.order);
 
   const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
-  
+
   const [status, setStatus] = useState("");
-  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
   }, [theme]);
 
-  const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
-  };
+  const toggleTheme = () =>
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
 
   const updateOrderSubmitHandler = (e) => {
     e.preventDefault();
-
     const myForm = new FormData();
     myForm.set("status", status);
-
     dispatch(updateOrder(id, myForm));
   };
 
   useEffect(() => {
-    if (error) {
-      toast.error(error);
-      dispatch(clearErrors());
-    }
-    if (updateError) {
-      toast.error(updateError);
-      dispatch(clearErrors());
-    }
+    if (error) { toast.error(error); dispatch(clearErrors()); }
+    if (updateError) { toast.error(updateError); dispatch(clearErrors()); }
     if (isUpdated) {
       toast.success("Order Updated Successfully");
       dispatch({ type: UPDATE_ORDER_RESET });
       navigate("/admin/orders");
     }
-
     dispatch(getOrderDetails(id));
   }, [dispatch, error, id, isUpdated, updateError, navigate]);
+
+  const getStatusClass = (status) => {
+    switch (status) {
+      case "Delivered": return "delivered";
+      case "Shipped":   return "shipped";
+      case "Cancelled": return "cancelled";
+      default:          return "processing";
+    }
+  };
+
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case "Delivered": return <CheckCircle size={15} />;
+      case "Shipped":   return <Truck size={15} />;
+      case "Cancelled": return <XCircle size={15} />;
+      default:          return <Package size={15} />;
+    }
+  };
 
   return (
     <Fragment>
       <div className="process-order-wrapper">
-        <button className="theme-toggle-btn" onClick={toggleTheme} aria-label="Toggle theme">
-          {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+        <button className="theme-toggle-btn" onClick={toggleTheme}>
+          {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
         </button>
 
         {loading ? (
@@ -80,6 +89,8 @@ const ProcessOrder = () => {
 
             <div className="process-grid">
               <div className="order-info-section">
+
+                {/* Shipping Info */}
                 <div className="info-card">
                   <div className="card-header">
                     <MapPin size={20} />
@@ -104,6 +115,7 @@ const ProcessOrder = () => {
                   </div>
                 </div>
 
+                {/* Payment */}
                 <div className="info-card">
                   <div className="card-header">
                     <CreditCard size={20} />
@@ -113,17 +125,9 @@ const ProcessOrder = () => {
                     <div className="info-row">
                       <span className="label">Status:</span>
                       <span className={`payment-status ${order?.paymentInfo?.status === "succeeded" ? "paid" : "unpaid"}`}>
-                        {order?.paymentInfo?.status === "succeeded" ? (
-                          <>
-                            <CheckCircle size={16} />
-                            PAID
-                          </>
-                        ) : (
-                          <>
-                            <XCircle size={16} />
-                            NOT PAID
-                          </>
-                        )}
+                        {order?.paymentInfo?.status === "succeeded"
+                          ? <><CheckCircle size={16} /> PAID</>
+                          : <><XCircle size={16} /> NOT PAID</>}
                       </span>
                     </div>
                     <div className="info-row">
@@ -133,6 +137,7 @@ const ProcessOrder = () => {
                   </div>
                 </div>
 
+                {/* Main Order Status */}
                 <div className="info-card">
                   <div className="card-header">
                     <Package size={20} />
@@ -140,24 +145,55 @@ const ProcessOrder = () => {
                   </div>
                   <div className="card-content">
                     <div className="info-row">
-                      <span className="label">Current Status:</span>
-                      <span className={`order-status ${order?.orderStatus === "Delivered" ? "delivered" : "processing"}`}>
-                        {order?.orderStatus === "Delivered" ? (
-                          <>
-                            <CheckCircle size={16} />
-                            {order?.orderStatus}
-                          </>
-                        ) : (
-                          <>
-                            <Truck size={16} />
-                            {order?.orderStatus || "Status Not Available"}
-                          </>
-                        )}
+                      <span className="label">Overall:</span>
+                      <span className={`order-status ${getStatusClass(order?.orderStatus)}`}>
+                        {getStatusIcon(order?.orderStatus)}
+                        {order?.orderStatus || "Processing"}
                       </span>
                     </div>
                   </div>
                 </div>
 
+                {/* ✅ Per-seller subOrder statuses — NEW */}
+                {subOrders?.length > 0 && (
+                  <div className="info-card">
+                    <div className="card-header">
+                      <Store size={20} />
+                      <h2>Seller Shipments ({subOrders.length})</h2>
+                    </div>
+                    <div className="card-content">
+                      {subOrders.map((sub) => (
+                        <div key={sub._id} className="seller-status-row">
+                          <div className="seller-status-left">
+                            <Store size={14} />
+                            <span className="seller-label">
+                              {sub.seller?.name || "Unknown Seller"}
+                            </span>
+                            <span className="seller-item-count">
+                              {sub.orderItems?.reduce((a, i) => a + i.quantity, 0)} items
+                              · ₹{sub.totalPrice?.toFixed(2)}
+                            </span>
+                          </div>
+                          <div className="seller-status-right">
+                            <span className={`order-status ${getStatusClass(sub.orderStatus)}`}>
+                              {getStatusIcon(sub.orderStatus)}
+                              {sub.orderStatus}
+                            </span>
+                            {sub.shippedAt && (
+                              <span className="shipped-date">
+                                Shipped {new Date(sub.shippedAt).toLocaleDateString("en-IN", {
+                                  day: "numeric", month: "short",
+                                })}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Cart Items */}
                 <div className="order-items-card">
                   <div className="card-header">
                     <Package size={20} />
@@ -184,6 +220,7 @@ const ProcessOrder = () => {
                 </div>
               </div>
 
+              {/* Update Status — admin updates MAIN order overall status */}
               {order?.orderStatus !== "Delivered" && (
                 <div className="update-section">
                   <form className="update-form" onSubmit={updateOrderSubmitHandler}>
@@ -191,10 +228,13 @@ const ProcessOrder = () => {
                       <Truck size={24} />
                       <h2>Update Order Status</h2>
                     </div>
-
+                    <p className="update-note">
+                      Note: Individual sellers update their own shipment status from their dashboard.
+                      This updates the overall main order status.
+                    </p>
                     <div className="form-group">
                       <label htmlFor="status">Change Status</label>
-                      <select 
+                      <select
                         id="status"
                         value={status}
                         onChange={(e) => setStatus(e.target.value)}
@@ -208,7 +248,6 @@ const ProcessOrder = () => {
                         )}
                       </select>
                     </div>
-
                     <button
                       className="submit-btn"
                       type="submit"

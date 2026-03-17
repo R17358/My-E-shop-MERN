@@ -54,7 +54,7 @@ function Dashboard() {
             <Package size={48} />
             <h3>No Products Yet</h3>
             <p>Start by creating your first product</p>
-            <Link to="/admin/create" className="create-first-btn">
+            <Link to="/newproduct" className="create-first-btn">
               <Plus size={18} />
               <span>Create Product</span>
             </Link>

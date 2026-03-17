@@ -147,7 +147,7 @@ export const getOrderDetails = (id) => async (dispatch) => {
       },
     };
     const { data } = await axios.get(`/order/${id}`, config);
-    dispatch({ type: ORDER_DETAILS_SUCCESS, payload: data.order });
+    dispatch({ type: ORDER_DETAILS_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
       type: ORDER_DETAILS_FAIL,
@@ -155,6 +155,8 @@ export const getOrderDetails = (id) => async (dispatch) => {
     });
   }
 };
+
+
 
 // ===== SELLER ACTIONS - NEW =====
 
@@ -181,20 +183,26 @@ export const getSellerOrders = () => async (dispatch) => {
 };
 
 // Get Single SubOrder Details (Seller)
+// Get Single SubOrder Details (Seller) — FIXED payload shape
 export const getSubOrderDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: ORDER_DETAILS_REQUEST });
-    
     const config = {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`
       },
     };
-    
     const { data } = await axios.get(`/seller/order/${id}`, config);
-    
-    dispatch({ type: ORDER_DETAILS_SUCCESS, payload: data.subOrder });
+
+    // ✅ Wrap to match reducer shape { order, subOrders }
+    dispatch({
+      type: ORDER_DETAILS_SUCCESS,
+      payload: {
+        order: data.subOrder,
+        subOrders: [],
+      },
+    });
   } catch (error) {
     dispatch({
       type: ORDER_DETAILS_FAIL,
@@ -202,6 +210,8 @@ export const getSubOrderDetails = (id) => async (dispatch) => {
     });
   }
 };
+
+// clearErrors — remove unnecessary async
 
 // Update SubOrder Status (Seller)
 export const updateSubOrder = (id, orderData) => async (dispatch) => {

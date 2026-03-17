@@ -165,26 +165,21 @@ export const orderReducer = (state = {}, action) => {
 export const orderDetailsReducer = (state = { order: {} }, action) => {
   switch (action.type) {
     case ORDER_DETAILS_REQUEST:
-      return {
-        loading: true,
-      };
+      return { loading: true };
 
     case ORDER_DETAILS_SUCCESS:
       return {
         loading: false,
-        order: action.payload,
+        // ✅ Safe: works whether payload is { order, subOrders } or bare object
+        order: action.payload.order ?? action.payload,
+        subOrders: action.payload.subOrders ?? [],
       };
 
     case ORDER_DETAILS_FAIL:
-      return {
-        loading: false,
-        error: action.payload,
-      };
+      return { loading: false, error: action.payload };
+
     case CLEAR_ERRORS:
-      return {
-        ...state,
-        error: null,
-      };
+      return { ...state, error: null };
 
     default:
       return state;

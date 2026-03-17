@@ -1,450 +1,238 @@
-/* Theme Variables */
-:root[data-theme="light"] {
-  --bg-primary: #f5f7fa;
-  --bg-secondary: #ffffff;
-  --card-bg: #ffffff;
-  --text-primary: #1a1d29;
-  --text-secondary: #6b7280;
-  --accent-primary: #7c3aed;
-  --accent-secondary: #ec4899;
-  --accent-hover: #6d28d9;
-  --shadow-sm: rgba(0, 0, 0, 0.08);
-  --shadow-hover: rgba(124, 58, 237, 0.25);
-  --border-color: #e5e7eb;
-  --table-header: #7c3aed;
-  --table-hover: #f3f4f6;
-  --focus-ring: rgba(124, 58, 237, 0.2);
+/* ── Orders Table Header ── */
+.orders-table-header {
+  display: grid;
+  grid-template-columns: 2.5fr 1fr 0.7fr 1fr 1fr 1fr;
+  padding: 12px 20px;
+  background: var(--bg-secondary);
+  border-radius: 12px 12px 0 0;
+  border: 1px solid var(--border-color);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-:root[data-theme="dark"] {
-  --bg-primary: #0f0f0f;
-  --bg-secondary: #1a1a1a;
-  --card-bg: #1e1e1e;
-  --text-primary: #e5e7eb;
-  --text-secondary: #9ca3af;
-  --accent-primary: #a855f7;
-  --accent-secondary: #f472b6;
-  --accent-hover: #c084fc;
-  --shadow-sm: rgba(0, 0, 0, 0.3);
-  --shadow-hover: rgba(168, 85, 247, 0.3);
-  --border-color: #2d2d2d;
-  --table-header: #a855f7;
-  --table-hover: #2a2a2a;
-  --focus-ring: rgba(168, 85, 247, 0.25);
+/* ── Orders List ── */
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-color);
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
 }
 
-/* Theme Toggle Button */
-.theme-toggle-btn {
-  position: fixed;
-  top: 100px;
-  right: 24px;
-  z-index: 99;
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  border: 2px solid var(--border-color);
+/* ── Order Row Wrapper ── */
+.order-row-wrapper {
+  border-bottom: 1px solid var(--border-color);
+  transition: background 0.2s ease;
+}
+.order-row-wrapper:last-child { border-bottom: none; }
+.order-row-wrapper:hover { background: var(--bg-secondary); }
+
+/* ── Main Order Row ── */
+.order-row {
+  display: grid;
+  grid-template-columns: 2.5fr 1fr 0.7fr 1fr 1fr 1fr;
+  align-items: center;
+  padding: 16px 20px;
+  gap: 8px;
+}
+
+.col-id { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.col-date, .col-items { color: var(--text-secondary); font-size: 14px; }
+.col-amount { font-weight: 700; color: var(--text-primary); font-size: 15px; }
+.col-actions { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+
+.order-id-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 180px;
+}
+
+/* ── Multi-seller tag ── */
+.multi-seller-tag {
+  background: var(--accent-primary);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+/* ── Status Pills ── */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.status-pill-sm { padding: 3px 9px; font-size: 11px; }
+
+.status-delivered { background: rgba(16, 185, 129, 0.12); color: #10b981; }
+.status-shipped   { background: rgba(59, 130, 246, 0.12); color: #3b82f6; }
+.status-cancelled { background: rgba(239, 68, 68, 0.12);  color: #ef4444; }
+.status-processing{ background: rgba(168, 85, 247, 0.12); color: var(--accent-primary); }
+.status-mixed     { background: rgba(245, 158, 11, 0.12); color: #f59e0b; }
+
+/* ── Action Buttons ── */
+.btn-view {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 14px;
+  background: var(--accent-primary);
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.btn-view:hover { background: var(--accent-hover); transform: translateY(-1px); }
+
+.btn-expand {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
   background: var(--card-bg);
-  color: var(--accent-primary);
-  box-shadow: 0 4px 12px var(--shadow-sm);
-  cursor: pointer;
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-expand:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
+
+/* ── Expanded Seller Rows ── */
+.seller-rows {
+  border-top: 1px dashed var(--border-color);
+  background: var(--bg-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
-.theme-toggle-btn:hover {
-  transform: scale(1.08) rotate(12deg);
-  box-shadow: 0 6px 20px var(--shadow-hover);
-  border-color: var(--accent-primary);
+.seller-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  gap: 8px 16px;
+  padding: 12px 20px 12px 40px;
+  border-bottom: 1px solid var(--border-color);
+  animation: fadeInUp 0.2s ease;
 }
+.seller-row:last-child { border-bottom: none; }
 
-/* Wrapper */
-.my-orders-wrapper {
-  min-height: 100vh;
-  background: var(--bg-primary);
-  padding: 20px 24px 60px;
-  animation: fadeIn 0.6s ease;
-  transition: background-color 0.3s ease;
+.seller-row-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary);
+  font-size: 13px;
 }
+.seller-row-left svg { color: var(--accent-primary); }
+.seller-name { font-weight: 700; color: var(--text-primary); }
+.seller-items { font-size: 12px; color: var(--text-secondary); }
 
-/* Hero Section */
-.my-orders-hero {
-  text-align: center;
-  margin-bottom: 48px;
-  padding: 32px 20px;
-  animation: fadeInUp 0.6s ease;
+.seller-row-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
 }
+.seller-amount { font-weight: 700; color: var(--text-primary); font-size: 14px; }
+.seller-shipped-date { font-size: 11px; color: var(--text-secondary); }
 
-.hero-icon {
-  display: inline-flex;
+/* Thumbnails row spans full width */
+.seller-row-items {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.item-thumb {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+}
+.more-items {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  background: var(--border-color);
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 80px;
-  height: 80px;
-  border-radius: 20px;
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-  color: white;
-  margin-bottom: 20px;
-  animation: bounce 2s ease-in-out infinite;
-}
-
-.hero-title {
-  font-size: 42px;
-  font-weight: 800;
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 12px;
-  letter-spacing: -1px;
-  line-height: 1.2;
-}
-
-.hero-subtitle {
-  font-size: 16px;
+  font-size: 11px;
+  font-weight: 700;
   color: var(--text-secondary);
-  font-weight: 400;
-  max-width: 600px;
-  margin: 0 auto;
 }
 
-/* Orders Container */
-.my-orders-container {
-  max-width: 1400px;
-  margin: 0 auto;
-  background: var(--card-bg);
-  border-radius: 20px;
-  padding: 24px;
-  box-shadow: 0 8px 24px var(--shadow-sm);
-  animation: slideUp 0.6s ease;
-  transition: all 0.3s ease;
-}
-
-/* DataGrid Styling */
-.my-orders-table {
-  background-color: transparent !important;
-  border: none !important;
-  color: var(--text-primary) !important;
-}
-
-.my-orders-table .MuiDataGrid-root {
-  border: none !important;
-}
-
-.my-orders-table .MuiDataGrid-cell {
-  color: var(--text-primary) !important;
-  border-bottom: 1px solid var(--border-color) !important;
-  font-size: 14px !important;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif !important;
-}
-
-.my-orders-table .MuiDataGrid-row:hover {
-  background-color: var(--table-hover) !important;
-  transition: background-color 0.2s ease;
-}
-
-.my-orders-table .MuiDataGrid-columnHeaders {
-  background: var(--table-header) !important;
-  border-radius: 12px 12px 0 0 !important;
-  border: none !important;
-}
-
-.my-orders-table .MuiDataGrid-columnHeader {
-  background-color: transparent !important;
-  color: white !important;
-}
-
-.my-orders-table .MuiDataGrid-columnHeaderTitle {
-  color: white !important;
-  font-weight: 600 !important;
-  font-size: 15px !important;
-}
-
-.my-orders-table .MuiDataGrid-iconSeparator {
-  display: none !important;
-}
-
-.my-orders-table .MuiDataGrid-footerContainer {
-  border-top: 1px solid var(--border-color) !important;
-  background: var(--bg-secondary) !important;
-  border-radius: 0 0 12px 12px !important;
-}
-
-.my-orders-table .MuiTablePagination-root {
-  color: var(--text-primary) !important;
-}
-
-.my-orders-table .MuiIconButton-root {
-  color: var(--text-primary) !important;
-}
-
-/* Status Colors */
-.greenColor {
-  color: #10b981 !important;
-  font-weight: 600 !important;
-}
-
-.redColor {
-  color: #ef4444 !important;
-  font-weight: 600 !important;
-}
-
-/* Action Button */
-.order-action-btn {
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-  color: white;
-  border: none;
-  padding: 8px 20px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 8px var(--shadow-sm);
-}
-
-.order-action-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px var(--shadow-hover);
-}
-
-.order-action-btn:active {
-  transform: translateY(0);
-}
-
-/* No Orders State */
+/* ── No orders / Loading ── */
 .no-orders-state {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 50vh;
-  text-align: center;
   padding: 80px 20px;
-  animation: fadeInUp 0.6s ease;
-}
-
-.no-orders-state svg {
-  color: var(--accent-primary);
-  opacity: 0.4;
-  margin-bottom: 24px;
-}
-
-.no-orders-state h3 {
-  font-size: 28px;
-  color: var(--text-primary);
-  margin: 0 0 12px 0;
-  font-weight: 700;
-}
-
-.no-orders-state p {
-  font-size: 16px;
+  gap: 16px;
   color: var(--text-secondary);
-  margin: 0;
-  max-width: 400px;
+  text-align: center;
+}
+.no-orders-state svg { opacity: 0.3; }
+.no-orders-state h3 { font-size: 22px; font-weight: 700; color: var(--text-primary); margin: 0; }
+.no-orders-state p { font-size: 15px; margin: 0; }
+
+.loading-state {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  min-height: 40vh; gap: 16px;
+}
+.loader {
+  width: 44px; height: 44px;
+  border: 4px solid var(--border-color);
+  border-top-color: var(--accent-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .orders-table-header,
+  .order-row {
+    grid-template-columns: 1fr 0.7fr 1fr 1fr;
   }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .my-orders-wrapper {
-    padding: 16px 20px 48px;
-  }
-
-  .hero-title {
-    font-size: 36px;
-  }
-
-  .hero-subtitle {
-    font-size: 15px;
-  }
-
-  .my-orders-container {
-    padding: 20px;
-  }
-}
-
-@media (max-width: 768px) {
-  .my-orders-wrapper {
-    padding: 16px 16px 40px;
-  }
-
-  .my-orders-hero {
-    margin-bottom: 32px;
-    padding: 24px 16px;
-  }
-
-  .hero-icon {
-    width: 64px;
-    height: 64px;
-    margin-bottom: 16px;
-  }
-
-  .hero-icon svg {
-    width: 32px;
-    height: 32px;
-  }
-
-  .hero-title {
-    font-size: 32px;
-  }
-
-  .hero-subtitle {
-    font-size: 14px;
-  }
-
-  .my-orders-container {
-    padding: 16px;
-    border-radius: 16px;
-  }
-
-  .theme-toggle-btn {
-    top: 80px;
-    right: 16px;
-    width: 42px;
-    height: 42px;
-  }
-
-  .my-orders-table .MuiDataGrid-cell {
-    font-size: 13px !important;
-  }
-
-  .my-orders-table .MuiDataGrid-columnHeaderTitle {
-    font-size: 14px !important;
-  }
+  .col-date, .col-items { display: none; }
 }
 
 @media (max-width: 600px) {
-  .my-orders-wrapper {
-    padding: 12px 12px 32px;
+  .orders-table-header { display: none; }
+  .order-row {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 8px;
+    padding: 14px 16px;
   }
-
-  .my-orders-hero {
-    margin-bottom: 24px;
-    padding: 20px 12px;
-  }
-
-  .hero-icon {
-    width: 56px;
-    height: 56px;
-  }
-
-  .hero-icon svg {
-    width: 28px;
-    height: 28px;
-  }
-
-  .hero-title {
-    font-size: 28px;
-  }
-
-  .hero-subtitle {
-    font-size: 13px;
-  }
-
-  .my-orders-container {
-    padding: 12px;
-    border-radius: 12px;
-  }
-
-  .theme-toggle-btn {
-    top: 70px;
-    right: 12px;
-    width: 40px;
-    height: 40px;
-  }
-
-  .my-orders-table .MuiDataGrid-cell {
-    font-size: 12px !important;
-    padding: 8px !important;
-  }
-
-  .my-orders-table .MuiDataGrid-columnHeaderTitle {
-    font-size: 13px !important;
-  }
-
-  .order-action-btn {
-    padding: 6px 16px;
-    font-size: 13px;
-  }
-
-  .no-orders-state {
-    padding: 60px 16px;
-  }
-
-  .no-orders-state svg {
-    width: 48px;
-    height: 48px;
-  }
-
-  .no-orders-state h3 {
-    font-size: 24px;
-  }
-
-  .no-orders-state p {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-title {
-    font-size: 24px;
-  }
-
-  .my-orders-table .MuiDataGrid-cell {
-    font-size: 11px !important;
-  }
-}
-
-/* Smooth Transitions */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Focus Styles */
-button:focus-visible,
-a:focus-visible {
-  outline: 2px solid var(--accent-primary);
-  outline-offset: 2px;
+  .col-id    { grid-column: 1 / -1; }
+  .col-status{ grid-column: 1; }
+  .col-amount{ grid-column: 2; justify-content: flex-end; }
+  .col-actions { grid-column: 1 / -1; justify-content: flex-start; }
+  .seller-row { padding-left: 16px; }
 }
