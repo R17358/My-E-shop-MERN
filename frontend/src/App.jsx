@@ -39,6 +39,7 @@ import SellerDashboard from './components/Admin/Sellerdashboard'
 import SellerOrders from './components/Admin/Sellerorders'
 
 // 4000003560000008
+//update
 
 const stripePromise = loadStripe("pk_test_51OwJJmSHX593TEEJrYWld45sj3BcosNHNIL34PloU37MsGRNowQKqriEIukMTFjfSNZwkyo41i0S71xR5YVEJdoo00viuK9qkO");
 
