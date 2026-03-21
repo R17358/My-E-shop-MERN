@@ -24,7 +24,7 @@ This is a **full MERN stack e-commerce web application** designed for buying and
 - **Responsive UI**
   - Built with **React.js & Redux** for an optimized shopping experience
 
-## Tech Stack
+## Tech Stacks
 | Technology    | Usage                          |
 |--------------|--------------------------------|
 | **MongoDB**  | Database for storing products & users |

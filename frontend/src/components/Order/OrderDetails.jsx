@@ -12,9 +12,9 @@ import {
 const OrderDetails = () => {
   const { order, subOrders, error, loading } = useSelector((state) => state.orderDetails);
 
-  console.log(order)
+  // console.log(order)
 
-  console.log(subOrders)
+  // console.log(subOrders)
   const dispatch = useDispatch();
   const { id } = useParams();
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");

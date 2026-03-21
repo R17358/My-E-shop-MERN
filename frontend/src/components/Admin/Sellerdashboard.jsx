@@ -17,7 +17,7 @@ function SellerDashboard() {
     setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
   };
 
-  console.log(user.role)
+  // console.log(user.role)
 
   const isSeller = () => {
     return user?.role === "seller" || "admin";

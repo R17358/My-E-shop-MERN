@@ -25,7 +25,7 @@ const session = require("express-session");
 const passport = require("passport"); // middleware for google auth
 
 // ==============================
-// Environment Config
+// Environment's Config
 // ==============================
 if (process.env.NODE_ENV !== "PRODUCTION") {
   require("dotenv").config({ path: "config/config.env" });
