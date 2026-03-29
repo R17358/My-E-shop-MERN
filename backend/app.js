@@ -4,12 +4,12 @@ const app = express();
 // ==============================
 // Force HTTPS Redirect (for Render)
 // ==============================
-app.use((req, res, next) => {
-  if (req.headers["x-forwarded-proto"] !== "https") {
-    return res.redirect("https://" + req.headers.host + req.url);
-  }
-  next();
-});
+// app.use((req, res, next) => {
+//   if (req.headers["x-forwarded-proto"] !== "https") {
+//     return res.redirect("https://" + req.headers.host + req.url);
+//   }
+//   next();
+// });
 
 // ==============================
 // External Packages & Middlewares
@@ -85,11 +85,13 @@ const productRoutes = require("./routes/productRoute");
 const userRoutes = require("./routes/userRoute");
 const orderRoutes = require("./routes/orderRoute");
 const paymentRoutes = require("./routes/paymentRoute");
+const superadminRoutes = require("./routes/superadminRoute");
 
 app.use("/api/v1", productRoutes);
 app.use("/api/v1", userRoutes);
 app.use("/api/v1", orderRoutes);
 app.use("/api/v1", paymentRoutes);
+app.use("/api/v1", superadminRoutes);
 
 // ==============================
 // 404 Handler for API

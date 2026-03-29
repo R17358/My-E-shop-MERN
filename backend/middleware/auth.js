@@ -12,37 +12,30 @@ exports.isAuthenticatedUser = async (req, res, next) => {
     return next(new ErrorHander("Please login to access this resource", 401));
   }
 
-  const token = authHeader.split(" ")[1]; // Extract the token
-
-// exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
-//   console.log(req);
-//   const { token } = req.cookies;
+  const token = authHeader.split(" ")[1];
 
   if (!token) {
     return next(new ErrorHander("Please Login to access this resource", 401));
   }
 
   const decodedData = jwt.verify(token, "ABCD");
- // console.log("Decoded Data:", decodedData);
 
-  // Ensure that `decodedData.id` is a string before using it with MongoDB
   const userId = decodedData.id.toString();
-  //console.log(userId)
-  // Fetch user using the string version of the ID
   const user = await User.findById(userId);
 
   if (!user) {
     return next(new ErrorHander("User not found ", 404));
   }
 
-  req.user = user; // Attach the found user to req.user for further use
-  //console.log("User found:", req.user);
-
+  req.user = user;
   next();
 };
 
 exports.authorizeRoles = (...roles) => {
   return (req, res, next) => {
+    // superadmin can access everything
+    if (req.user.role === "superadmin") return next();
+    
     if (!roles.includes(req.user.role)) {
       return next(
         new ErrorHander(

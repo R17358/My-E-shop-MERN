@@ -21,6 +21,11 @@ function Icon() {
     return user?.role === "admin";
   }
 
+  
+  const isSuperAdmin = () => {
+    return user?.role === "superadmin";
+  }
+
   const isSeller = () => {
     return user?.role === "seller";
   }
@@ -55,6 +60,13 @@ function Icon() {
                 <p>Manage your products and orders</p>
               </Link>
             )} */}
+             {isSuperAdmin() && (
+              <Link to="/superadmin/dashboard" className="action-card admin-card">
+                <Shield size={32} />
+                <h3>Super Admin Dashboard</h3>
+                <p>Manage products and orders</p>
+              </Link>
+            )}
 
              {isAdmin() && (
               <Link to="/seller/dashboard" className="action-card admin-card">

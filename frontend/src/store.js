@@ -29,6 +29,18 @@ import {
   orderReducer,
 } from "./reducers/orderReducer";
 
+import {
+  superadminDashboardReducer,
+  superadminCommissionsReducer,
+  superadminUsersReducer,
+  superadminUserActionReducer,
+  superadminSellersReducer,
+  superadminProductsReducer,
+  superadminProductActionReducer,
+  superadminOrdersReducer,
+  superadminOrderActionReducer,
+} from "./reducers/superadminReducer";
+
 const reducer = combineReducers({
   products: productsReducer,
   productDetails: productDetailsReducer,
@@ -48,6 +60,16 @@ const reducer = combineReducers({
   userDetails: userDetailsReducer,
   productReviews: productReviewsReducer,
   review: reviewReducer,
+  // SuperAdmin
+  superadminDashboard: superadminDashboardReducer,
+  superadminCommissions: superadminCommissionsReducer,
+  superadminUsers: superadminUsersReducer,
+  superadminUserAction: superadminUserActionReducer,
+  superadminSellers: superadminSellersReducer,
+  superadminProducts: superadminProductsReducer,
+  superadminProductAction: superadminProductActionReducer,
+  superadminOrders: superadminOrdersReducer,
+  superadminOrderAction: superadminOrderActionReducer,
 });
 
 let initialState = {

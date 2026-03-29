@@ -12,7 +12,7 @@ import Icon from './components/Icon/Icon'
 import UserSignUp from './components/UserSignup/UserSignUp'
 import UserLogin from './components/UserSignup/UserSignIn'
 import Profile from './components/CreateProduct/Profile'
-import { ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify"
 import ProductPage from './pages/ProductPage'
 import LogOut from './components/LogOut/LogOut'
 import Admin from './components/Admin/Admin'
@@ -24,49 +24,53 @@ import ConfirmOrder from './components/Cart/ConfirmOrder'
 import OrderSuccess from './components/Cart/OrderSuccess'
 import Payment from './components/Cart/Payment'
 import ProcessOrder from './components/Admin/ProcessOrder'
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js"
+import { loadStripe } from "@stripe/stripe-js"
 import MyOrders from './components/Order/MyOrders'
 import OrderDetails from './components/Order/OrderDetails'
 import OrderList from './components/Admin/OrderList'
 import GoogleHandler from './pages/GoogleHandler'
 import UpdateProduct from './components/dashboard/UpdateProduct'
-import { Sun, Moon } from 'lucide-react';
+import { Sun, Moon } from 'lucide-react'
 
-// NEW SELLER COMPONENTS
+// Seller components
 import ProcessSubOrder from './components/Admin/ProcessSubOrder'
 import SellerDashboard from './components/Admin/Sellerdashboard'
 import SellerOrders from './components/Admin/Sellerorders'
 
-// 4000003560000008
-//update
+// SuperAdmin components
+import SuperAdminDashboard   from './components/SuperAdmin/SuperAdminDashboard'
+import SuperAdminUsers       from './components/SuperAdmin/SuperAdminUsers'
+import SuperAdminSellers     from './components/SuperAdmin/SuperAdminSellers'
+import SuperAdminProducts    from './components/SuperAdmin/SuperAdminProducts'
+import SuperAdminOrders      from './components/SuperAdmin/SuperAdminOrders'
+import SuperAdminCommissions from './components/SuperAdmin/SuperAdminCommissions'
 
-const stripePromise = loadStripe("pk_test_51OwJJmSHX593TEEJrYWld45sj3BcosNHNIL34PloU37MsGRNowQKqriEIukMTFjfSNZwkyo41i0S71xR5YVEJdoo00viuK9qkO");
+const stripePromise = loadStripe("pk_test_51OwJJmSHX593TEEJrYWld45sj3BcosNHNIL34PloU37MsGRNowQKqriEIukMTFjfSNZwkyo41i0S71xR5YVEJdoo00viuK9qkO")
 
 function App() {
-  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
 
   useEffect(() => {
-    // Set theme on initial load and whenever it changes
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-  }, [theme]);
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('theme', theme)
+  }, [theme])
 
   const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
-  };
-  
+    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light')
+  }
+
   return (
     <Provider store={store}>
       <Router>
         <Header />
         <ToastContainer position="top-right" autoClose={2000} />
-        
+
         {/* Global Theme Toggle Button */}
         <button className="theme-toggle-btn" onClick={toggleTheme} aria-label="Toggle theme">
           {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
         </button>
-               
+
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home/>} />
@@ -100,16 +104,24 @@ function App() {
           <Route path="/admin/order/:id" element={<ProcessOrder/>} />
           <Route path="/admin/product/:id" element={<UpdateProduct />} />
 
-          {/* Seller Routes - NEW */}
+          {/* Seller Routes */}
           <Route path="/seller/dashboard" element={<SellerDashboard/>} />
           <Route path="/seller/orders" element={<SellerOrders/>} />
-          <Route path="/seller/products" element={<Dashboard/>} /> {/* Reuse existing Dashboard */}
-          <Route path="/seller/product/new" element={<Profile/>} /> {/* Reuse existing Profile/CreateProduct */}
-          <Route path="/seller/product/:id" element={<UpdateProduct/>} /> {/* Reuse existing UpdateProduct */}
+          <Route path="/seller/products" element={<Dashboard/>} />
+          <Route path="/seller/product/new" element={<Profile/>} />
+          <Route path="/seller/product/:id" element={<UpdateProduct/>} />
           <Route path="/seller/order/:id" element={<ProcessOrder/>} />
           <Route path="/seller/suborder/:id" element={<ProcessSubOrder />} />
 
-          {/* Legacy Routes (keeping for backward compatibility) */}
+          {/* SuperAdmin Routes */}
+          <Route path="/superadmin/dashboard"   element={<SuperAdminDashboard />} />
+          <Route path="/superadmin/users"        element={<SuperAdminUsers />} />
+          <Route path="/superadmin/sellers"      element={<SuperAdminSellers />} />
+          <Route path="/superadmin/products"     element={<SuperAdminProducts />} />
+          <Route path="/superadmin/orders"       element={<SuperAdminOrders />} />
+          <Route path="/superadmin/commissions"  element={<SuperAdminCommissions />} />
+
+          {/* Legacy Routes */}
           <Route path="/newproduct" element={<Profile/>} />
           <Route path="/dashboard" element={<Dashboard/>} />
         </Routes>
