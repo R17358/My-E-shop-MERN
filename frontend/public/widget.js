@@ -104,7 +104,7 @@
       iframe.style.display = "none";
     }, 300);
 
-    chatBtn.innerText = "💬";
+    chatBtn.innerText = "🛍️";
     chatBtn.style.animation = "pulse 2s infinite";
     isOpen = false;
   }
