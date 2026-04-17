@@ -6,7 +6,7 @@
   Object.assign(chatBtn.style, {
     position: "fixed",
     bottom: "20px",
-    right: "20px",
+    right: "2vw",
     zIndex: "9999",
     width: "60px",
     height: "60px",
