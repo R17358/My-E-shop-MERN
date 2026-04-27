@@ -1,6 +1,10 @@
 const express = require("express");
 const app = express();
 
+
+// const dns = require("dns");
+// dns.setServers(['8.8.8.8', '8.8.4.4']);
+
 // ==============================
 // Force HTTPS Redirect (for Render)
 // ==============================
@@ -28,7 +32,7 @@ const passport = require("passport"); // middleware for google auth
 // Environment's Config
 // ==============================
 if (process.env.NODE_ENV !== "PRODUCTION") {
-  require("dotenv").config({ path: "config/config.env" });
+  require("dotenv").config({ path: ".env" });
 }
 
 // ==============================
@@ -49,7 +53,7 @@ const corsOptions = {
   origin: 
     process.env.NODE_ENV === "PRODUCTION"
       ? "https://hindustan-zone.vercel.app"
-      : "http://localhost:5173",
+      : "http://localhost:5174",
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };

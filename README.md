@@ -2,6 +2,7 @@
 
 Live: https://hindustan-zone.vercel.app
 
+TEST card for stripe in india: 4000003560000008
 
 ## Overview
 This is a **full MERN stack e-commerce web application** designed for buying and selling **wooden products online**. It provides a seamless user experience with secure authentication, product management, shopping cart functionality, and **Stripe API integration** for payments.
