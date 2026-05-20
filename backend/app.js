@@ -53,7 +53,7 @@ const corsOptions = {
   origin: 
     process.env.NODE_ENV === "PRODUCTION"
       ? "https://hindustan-zone.vercel.app"
-      : "http://localhost:5174",
+      : "http://localhost:5173",
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };

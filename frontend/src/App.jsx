@@ -24,8 +24,6 @@ import ConfirmOrder from './components/Cart/ConfirmOrder'
 import OrderSuccess from './components/Cart/OrderSuccess'
 import Payment from './components/Cart/Payment'
 import ProcessOrder from './components/Admin/ProcessOrder'
-import { Elements } from "@stripe/react-stripe-js"
-import { loadStripe } from "@stripe/stripe-js"
 import MyOrders from './components/Order/MyOrders'
 import OrderDetails from './components/Order/OrderDetails'
 import OrderList from './components/Admin/OrderList'
@@ -46,7 +44,6 @@ import SuperAdminProducts    from './components/SuperAdmin/SuperAdminProducts'
 import SuperAdminOrders      from './components/SuperAdmin/SuperAdminOrders'
 import SuperAdminCommissions from './components/SuperAdmin/SuperAdminCommissions'
 
-const stripePromise = loadStripe("pk_test_51OwJJmSHX593TEEJrYWld45sj3BcosNHNIL34PloU37MsGRNowQKqriEIukMTFjfSNZwkyo41i0S71xR5YVEJdoo00viuK9qkO")
 
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
@@ -90,11 +87,7 @@ function App() {
           <Route path="/shipping" element={<Shipping/>} />
           <Route path="/order/confirm" element={<ConfirmOrder/>} />
           <Route path="/success" element={<OrderSuccess/>} />
-          <Route path="/process/payment" element={
-            <Elements stripe={stripePromise}>
-              <Payment />
-            </Elements>
-          } />
+          <Route path="/process/payment" element={<Payment />} />
           <Route path="/myorders" element={<MyOrders/>} />
           <Route path="/order/:id" element={<OrderDetails/>} />
 
